@@ -647,7 +647,7 @@ import { validationMixin  } from 'vuelidate'
 import { required, minLength, maxLength, numeric, helpers, email , sameAs} from 'vuelidate/lib/validators';
 import swal from 'sweetalert';
 
-const letrasValidas = helpers.regex('alfabetic', /[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+/)
+const letrasValidas = helpers.regex('alfabetic', /[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+/)
 
 export default {
   name: 'register',
@@ -866,7 +866,7 @@ export default {
   methods: {
     isLetter(e) {
       let char = String.fromCharCode(e.keyCode); // Get the character
-      if(/^[A-Za-z ]+$/.test(char)) return true; // Match with regex 
+      if(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(char)) return true; // Match with regex 
       else e.preventDefault(); // If not match, don't add to input text
     },
     isNumber(e){
