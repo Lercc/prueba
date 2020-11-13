@@ -15,16 +15,30 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import './registerServiceWorker'
-import ArgonDashboard from './plugins/argon-dashboard'
+import Vue from 'vue';
+import Vuelidate from 'vuelidate';
+import { BootstrapVue } from 'bootstrap-vue'
+import App from './App.vue';
+import router from './router';
+import './registerServiceWorker';
+import ArgonDashboard from './plugins/argon-dashboard';
 
-Vue.config.productionTip = false
+// vuex setup
+import store from '@/store';
 
-Vue.use(ArgonDashboard)
+//spinner loading
+import { VueSpinners } from '@saeris/vue-spinners';
+
+Vue.config.productionTip = false;
+
+Vue.use(ArgonDashboard),
+Vue.use(Vuelidate);
+Vue.use(VueSpinners);
+Vue.use(BootstrapVue);
+
+
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

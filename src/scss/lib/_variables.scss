@@ -1,0 +1,73 @@
+//COLORS
+$main-color: #615389;
+$secondary-color: #ffffff;
+$secondary-color-contrast: #f9f9f9;
+
+// STATUS
+$status-color: #f197dd;
+$status-color-contrast: #d376c2;
+$satatus-color-message: #4a3d53;
+
+// muni-colors  start
+$main-black: #1B1C25 !default;
+$main-blue: #213145 !default;
+$main-green: #206A5D !default;
+$main-gray: #EBECF1 !default;
+
+
+$secondary-green: #4FA898 !default;
+$secondary-blue: #43566D !default;
+
+
+$red: red;
+
+// TYPOGRAPY
+$roboto: "Roboto", sans-serif;
+
+// BreakPoints make by aomine // and udpate by lercc
+
+//                         width    height    references
+//                           |        |
+//Phone                      |        |
+$bp-xs-1: 320px; // 320px  X  568px
+$bp-xs-2: 360px; // 360px  X  640px
+$bp-xs-3: 400px; // 400px  X  667px
+$bp-xs-4: 480px; // 480px  X  800px
+
+//Tablet Portrait -- vertical
+$bp-sm-1: 600px;
+$bp-sm-2: 720px; // 720px  X  1280px
+$bp-sm-3: 768px; // 768px  X  1024px
+$bp-sm-4: 960px;
+
+//Tablet Landscape -- horizontal
+$bp-md-1: 1024px; // 1024px  X  768px
+//Normal Desktop
+$bp-md-2: 1280px; // 1280px  X  800px    and    1280px  X  1024px
+$bp-md-3: 1366px; // 1366px  X  768px
+
+//Big Desktop
+$bp-lg-1: 1440px; // 1440px  X  900px
+$bp-lg-2: 1600px; // 1600px  X  900px
+
+//Super Big Desktop
+$bp-xl-1: 1920px; //1920px  X  1080px
+
+//BOX SHADOW
+
+$shadow-primary: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+  0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+
+$shadow-secondary: 1px 1px 5px rgba(0, 0, 0, 0.5);
+
+$shadow-inset-1: 4px 4px 9px rgba(176, 186, 190, 0.7) inset,
+  -6px -5px 7px #edf4f8 inset;
+
+$shadow-inset-2: 3px 3px 10px rgba(176, 186, 190, 0.6) inset,
+  -5px -5px 2px #edf4f8 inset;
+
+$shadow-inset-3: 2px 3px 4px #4a3f6a inset, -2px -1px 3px #7361a5 inset;
+
+$shadow-inset-3-contrast: 2px 3px 4px #4a3f6a, -2px -1px 3px #7361a5;
+
+$shadow-button: 3px 3px 5px rgba(176, 186, 190, 0.6), -5px -5px 5px #edf4f8;

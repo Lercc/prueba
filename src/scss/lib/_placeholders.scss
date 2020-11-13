@@ -1,0 +1,139 @@
+//muni placeholders
+
+//bg-primary-color
+%bg-main-green {
+	background-color: $main-green;
+}
+%bg-main-blue {
+	background-color: $main-blue;
+}
+%bg-main-gray {
+	background-color: $main-gray;
+}
+%bg-main-black {
+	background-color: $main-black;
+}
+
+//bg-secondary-color
+%bg-secondary-green {
+	background-color: $secondary-green;
+}
+%bg-secondary-blue {
+	background-color: $secondary-blue;
+}
+
+
+
+//GROUPs
+//MUNI-LOGIN
+%bg-nav-muni-auth {
+	background-color: $main-blue;
+}
+%bg-body-muni-auth {
+	background-color: $secondary-green;
+	fill: $secondary-green;
+}
+
+//MUNI-
+
+
+
+
+
+
+
+
+// // Tap Highlight
+// %tap-highlight {
+// 	user-select: none;
+// 	-webkit-tap-highlight-color: transparent;
+// }
+
+// // Sections
+// %sec-pt {
+// 	padding-top: 50px;
+// 	}
+
+// // Title
+// %title {
+// 	font-family: $baloo;
+// }
+
+// %title-2 {
+// 	@extend %title;
+// 	color: $title-color;
+// 	font-size: 42px;
+// 	@include desktop($bp-xs){
+// 		font-size: 32px;
+// 	}
+// }
+
+// // Text
+// %text-1 {
+// 	font-size: 20px;
+// 	@include desktop($bp-xs){
+// 		font-size: 16px;
+// 	}
+// }
+// %text-2 {
+// 	font-size: 16px;
+// }
+
+// // Cards
+// %card {
+// 	border-radius: 20px; 
+// 	box-shadow: $shadow-primary;
+// }
+// %card-text {
+// 	background-color: $light;
+// 	padding: 30px 50px;
+// 	@include desktop($bp-xs-4){
+// 		padding: 15px 5px;
+// 	}
+// }
+// %card-imgBox {
+// 	overflow: hidden;
+// }
+
+// // Flex
+// %flex-full {
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// }
+// // Grid
+// %grid-2-columns {
+// 	display: grid;
+// 	grid-template-columns: 1fr 1fr;
+// 	grid-gap: 50px;
+// 	@include desktop($bp-v-md){
+// 		grid-template-columns: 1fr;
+// 	}
+// }
+
+// // Images
+// %img {
+// 	object-fit: cover;
+// }
+// %img-full {
+// 	@extend %img;
+// 	height: 100%;
+// }
+
+// %scrollbar {
+// 	&::-webkit-scrollbar {
+// 		width: 12px;
+// 		height: 12px;
+// 	}
+// 	&::-webkit-scrollbar-track {
+// 		border-radius: 50px;
+// 		background-color: rgba(0, 0, 0, .05);
+// 	}
+// 	&::-webkit-scrollbar-thumb {
+// 		border-radius: 50px;
+// 		background-color: rgba(0, 0, 0, .25);
+// 	}
+// 	&::-webkit-scrollbar-thumb:hover {
+// 		background-color: rgba(0, 0, 0, .45);
+// 	}
+// }

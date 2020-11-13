@@ -4,3 +4,27 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import * as auth from '@/api/auth';
+import { mapMutations } from 'vuex';
+export default {
+
+created () {
+  auth.getInitialToken()
+    .then( res => {
+      this.setAppToken(res.data.access_token)
+    })
+    .catch( error => {
+      console.log(error)
+    })
+    .finally( () => {
+      console.log("get token inicial end")
+    })
+  },
+
+  methods: {
+    ...mapMutations('appToken', [ "setAppToken" ] )
+  }
+}
+</script>

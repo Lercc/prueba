@@ -6,7 +6,7 @@
       title="Argon"
     >
       <template slot="links">
-        <sidebar-item :link="{name: 'Home', icon: 'ni ni-tv-2 text-primary', path: '/dashboard'}"/>
+        <sidebar-item :link="{name: 'Home', icon: 'ni ni-tv-2 text-primary', path: '/home'}"/>
         <sidebar-item :link="{name: 'Perfil', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
         <sidebar-item :link="{name: 'Matrícula', icon: 'ni ni-ruler-pencil text-green', path: '/matricula'}"/>
         <sidebar-item :link="{name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons'}"/>
@@ -18,7 +18,7 @@
 
     <div class="main-content" :data="sidebarBackground">
       <!-- MuniAulaVirtual SIDEBAR -->
-      <dashboard-navbar></dashboard-navbar>
+      <aula-navbar></aula-navbar>
 
       <!-- MuniAulaVirtual CONTENT MAIN -->
       <div @click="toggleSidebar">
@@ -26,20 +26,20 @@
           <router-view></router-view>
         </fade-transition>
         <!-- MuniAulaVirtual FOOTER -->
-        <content-footer v-if="!$route.meta.hideFooter"></content-footer>
+        <aula-footer v-if="!$route.meta.hideFooter"></aula-footer>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import DashboardNavbar from './DashboardNavbar.vue';
-  import ContentFooter from './ContentFooter.vue';
+  import AulaNavbar from '@/layout/AulaNavbar.vue';
+  import AulaFooter from '@/layout/AulaFooter.vue';
   import { FadeTransition } from 'vue2-transitions';
 
   export default {
     components: {
-      DashboardNavbar,
-      ContentFooter,
+      AulaNavbar,
+      AulaFooter,
       FadeTransition
     },
     data() {
