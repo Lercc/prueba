@@ -948,7 +948,7 @@ export default {
           }
         })
         .catch( e => {
-          console.log(e.response)
+          console.log(e.response.status)
         })
         .finally( () => {
           console.log('getApoderado end')
@@ -1074,7 +1074,7 @@ export default {
           }
         })
         .catch( error => {
-          console.log(error.response)
+          console.log(error.response.status)
         })
         .finally( () => {
           console.log("getEmailEstudianteEnd")
@@ -1088,8 +1088,6 @@ export default {
 
         newUserForm.getEstudiante(this.estudiante.dni)
         .then( res => {
-
-          console.log(res)
           let estudiante = res.data.data
           console.log(estudiante)
 
@@ -1103,13 +1101,6 @@ export default {
             this.estudiante.apPater = estudiante[0].apellidos.substr(0,indiceDeSeparacion)
             this.estudiante.apMater = estudiante[0].apellidos.substr(indiceDeSeparacion+1)
             this.estudiante.dni = estudiante[0].dni
-            this.estudiante.fechNac = estudiante[0].fecha_nacimiento
-            this.estudiante.celular = estudiante[0].celular
-            this.estudiante.provincia = estudiante[0].provincia
-            this.estudiante.distrito = estudiante[0].distrito
-            this.estudiante.relacionConApoderado = estudiante[0].relacion
-            this.estudiante.anioCulminacion = estudiante[0].anio_culminacion
-            this.estudiante.apoderadoId = estudiante[0].apoderado_id
         
             this.estudianteYaExiste = true
             this.btnCambiarEstudiante = true
@@ -1125,8 +1116,7 @@ export default {
           }
         })
         .catch( e => {
-          console.log(e)
-          alert(e)
+          console.log(e.response.status)
         })
         .finally( () => {
           console.log('getEstudiante end')
@@ -1163,7 +1153,6 @@ export default {
           this.FormFechaNacDisable = true
 
           this.mostrarBtnRegistrarEstudiante = false
-
 
           let estudiante = res.data.data
 

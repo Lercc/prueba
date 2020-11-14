@@ -339,7 +339,6 @@ export default {
         })
         .then( res => {
           let codigoRes = res.status
-
           if(codigoRes == 200) {
             swal("Matrícula exitosa", "La matrícula se realizo exitosamente.","success")
           }
@@ -362,7 +361,7 @@ export default {
           this.ciclos = res.data.data.map( i => ({ value : i.id, text : i.nombre}))
         })
         .catch( error => {
-          console.log(error)
+          console.log(error.response.status)
         })
         .finally(() => {
           console.log("get ciclos end")
@@ -375,7 +374,7 @@ export default {
             this.areas = res.data.data.map( i => ({ value : i.id, text : i.nombre}))
         })
         .catch( error => {
-          console.log(error)
+          console.log(error.response.status)
         })
         .finally(() => {
           console.log("get areas end")
