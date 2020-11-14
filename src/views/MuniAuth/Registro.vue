@@ -16,7 +16,7 @@
                     <b-form-input
                       type = "date"
                       min="1940-01-01" 
-                      max="2030-12-31"
+                      max="2011-12-31"
                       v-model="edad"
                       :disabled="FormFechaNacDisable"
                       >
@@ -838,7 +838,7 @@ export default {
         this.estudiante.relacionConApoderado = 'independiente'
 
 
-      } else if(this.anioNac > 1940 && this.anioNac < 2020 && 2020 - this.anioNac <= 18) {
+      } else if(this.anioNac > 1940 && this.anioNac < 2011 && 2020 - this.anioNac <= 18) {
         this.mayorDeEdad = false
         this.mostrarFormularioUno = true
         this.mostrarFormularioDos = false
