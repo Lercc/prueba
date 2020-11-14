@@ -31,25 +31,25 @@
                 <!-- Navbar items -->
                 <ul class="navbar-nav ml-auto">
                     <!-- <li class="nav-item">
-                        <router-link class="nav-link nav-link-icon" to="/dashboard">
+                        <router-link class="nav-link nav-link-icon" to="/home">
                             <i class="ni ni-planet"></i>
                             <span class="nav-link-inner--text">Aula Virtual</span>
                         </router-link>
                     </li> -->
                     <li class="nav-item">
                         <router-link class="nav-link nav-link-icon" to="/registro">
-                            <i class="ni ni-circle-08"></i>
+                            <i class="ni ni-ruler-pencil"></i>
                             <span class="nav-link-inner--text">Registro</span>
                         </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link nav-link-icon" to="/login">
-                            <i class="ni ni-key-25"></i>
+                            <i class="ni ni-circle-08"></i>
                             <span class="nav-link-inner--text">Login</span>
                         </router-link>
                     </li>
                     <!-- <li class="nav-item">
-                        <router-link class="nav-link nav-link-icon" to="/profile">
+                        <router-link class="nav-link nav-link-icon" to="/adminProfile">
                             <i class="ni ni-single-02"></i>
                             <span class="nav-link-inner--text">Perfil</span>
                         </router-link>

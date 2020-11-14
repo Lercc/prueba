@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import appToken from './modules/appToken';
 import estudianteToken from './modules/estudianteToken';
 import estudiante from './modules/estudiante';
+import usuario from './modules/usuario';
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   modules: {
     appToken,
     estudianteToken,
-    estudiante
+    estudiante,
+    usuario
   }
 });

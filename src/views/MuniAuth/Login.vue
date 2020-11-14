@@ -61,17 +61,17 @@ import { mapMutations } from 'vuex'
 
 import swal from 'sweetalert';
 
-
   export default {
     data() {
       return {
-          correo: '',
-          contrasenia: '',
+        correo: '',
+        contrasenia: '',
       };
     },
     methods: {
       ...mapMutations('estudianteToken', ['setEstudianteToken']),
       ...mapMutations('estudiante', ['guardarId']),
+      ...mapMutations('usuario', ['userIsAdmin']),
 
       getTokenEstudiante() {
         auth.getStudentToken(this.correo,this.contrasenia)
@@ -80,11 +80,13 @@ import swal from 'sweetalert';
             return getMe()
           })
           .then( res => {
+            this.guardarId(res.data.id)
             if (res.data.admin == "true") {
-              console.log("is admin")
+              this.userIsAdmin(true)
+              this.$router.push({ name: "adminProfile"})
             } else {
-              this.guardarId(res.data.id)
-              this.$router.push({ name: "matricula"});
+              this.userIsAdmin(false)
+              this.$router.push({ name: "matricula"})
             }
           })
           .catch( error => {

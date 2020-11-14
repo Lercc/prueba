@@ -6,13 +6,9 @@
       title="Argon"
     >
       <template slot="links">
-        <sidebar-item :link="{name: 'Home', icon: 'ni ni-tv-2 text-primary', path: '/home'}"/>
-        <sidebar-item :link="{name: 'Perfil', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
-        <sidebar-item :link="{name: 'Matrícula', icon: 'ni ni-ruler-pencil text-green', path: '/matricula'}"/>
-        <sidebar-item :link="{name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons'}"/>
-        <sidebar-item :link="{name: 'Tables', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
-        <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
-
+        <sidebar-item :link="{name: 'Admin Icons', icon: 'ni ni-tv-2 text-primary', path: '/adminIcons'}"/>
+        <sidebar-item :link="{name: 'Admin Perfil', icon: 'ni ni-single-02 text-yellow', path: '/adminProfile'}"/>
+        <sidebar-item :link="{name: 'no admin Matricula', icon: 'ni ni-single-02 text-yellow', path: '/matricula'}"/>
       </template>
     </side-bar>
 
@@ -37,7 +33,7 @@
   import { FadeTransition } from 'vue2-transitions';
 
   export default {
-    name: 'muni-aula-virtual',
+    name: 'muni-admin',
     components: {
       AulaNavbar,
       AulaFooter,
@@ -57,5 +53,5 @@
     }
   };
 </script>
-<style lang="scss">
+<style>
 </style>
