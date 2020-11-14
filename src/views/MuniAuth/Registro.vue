@@ -1089,13 +1089,11 @@ export default {
         newUserForm.getEstudiante(this.estudiante.dni)
         .then( res => {
           let estudiante = res.data.data
-          console.log(estudiante)
 
           if( estudiante.length !== 0 ){
             this.inputEstudianteDisable = true
 
             let indiceDeSeparacion = estudiante[0].apellidos.indexOf(' ')
-            console.log(estudiante[0].nombre)
 
             this.estudiante.nombres = estudiante[0].nombre
             this.estudiante.apPater = estudiante[0].apellidos.substr(0,indiceDeSeparacion)
