@@ -21,10 +21,11 @@ export default new Router({
       redirect: 'login',
       component: MuniAuth,
       beforeEnter(to, from, next) {
-        let token = store.state.estudianteToken.token 
+        let token = store.state.usuario.token 
         let isAdmin = store.state.usuario.admin 
         if(!token == 0 && !isAdmin)  {
           next({ name: 'MuniAulaVirtual' })
+
         } else if(!token == 0 && isAdmin){
           next({ name: 'MuniAdmin' })
         } 
@@ -51,8 +52,8 @@ export default new Router({
       name: 'MuniAulaVirtual',
       component: MuniAulaVirtual,
       beforeEnter(to, from, next) {
-        let token = store.state.estudianteToken.token 
-        let isAdmin = store.state.usuario.admin 
+        let token = store.state.usuario.token
+        let isAdmin = store.state.usuario.admin
         if(!token == 0 && !isAdmin)  {
           next()
         } else if(!token == 0 && isAdmin){
@@ -101,7 +102,7 @@ export default new Router({
       name: 'MuniAdmin',
       component: MuniAdmin,
       beforeEnter(to, from, next) {
-        let token = store.state.estudianteToken.token 
+        let token = store.state.usuario.token 
         let isAdmin = store.state.usuario.admin 
         if(!token == 0 && isAdmin)  {
           next()

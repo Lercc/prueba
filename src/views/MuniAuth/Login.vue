@@ -69,28 +69,30 @@ import swal from 'sweetalert';
       };
     },
     methods: {
-      ...mapMutations('estudianteToken', ['setEstudianteToken']),
       ...mapMutations('estudiante', ['guardarId']),
-      ...mapMutations('usuario', ['userIsAdmin']),
+      ...mapMutations('usuario', ['userIsAdmin', 'setUsuarioToken']),
 
       getTokenEstudiante() {
         auth.getStudentToken(this.correo,this.contrasenia)
           .then( res => {
-            this.setEstudianteToken(res.data.access_token)
+            this.setUsuarioToken(res.data.access_token)
+            localStorage.setItem("userToken",res.data.access_token)
             return getMe()
           })
           .then( res => {
             this.guardarId(res.data.id)
-            if (res.data.admin == "true") {
+            if (res.data.admin==="true") {
               this.userIsAdmin(true)
-              this.$router.push({ name: "adminProfile"})
+              localStorage.setItem("admin",true)
+              this.$router.push({ name: "adminProfile" })
             } else {
               this.userIsAdmin(false)
-              this.$router.push({ name: "matricula"})
+              localStorage.setItem("admin",false)
+              this.$router.push({ name: "matricula" })
             }
           })
           .catch( error => {
-            console.log(error.response.status)
+            console.log(error)
             swal("Datos ingresados incorrectos","El correo o la contraseña no son válidos","error")
           })
           .finally( () => {

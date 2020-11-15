@@ -15,7 +15,7 @@
                 <span class="no-icon">{{title}}</span>
             </a>
         </slot>
-        <ul class="dropdown-menu"
+        <ul class="dropdown-menu ml-md--8  ml-lg--4"
             ref="menu"
             :class="[{'dropdown-menu-right': position === 'right'}, {show: isOpen}, menuClasses]">
             <slot></slot>

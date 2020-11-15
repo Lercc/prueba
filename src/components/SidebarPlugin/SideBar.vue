@@ -33,7 +33,7 @@
                         </a>
 
                         <div class=" dropdown-header noti-title">
-                            <h6 class="text-overflow m-0">Welcome!</h6>
+                            <h6 class="text-overflow m-0">Welcome!!!!!</h6>
                         </div>
                         <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-single-02"></i>
@@ -82,16 +82,16 @@
                 <!--Divider-->
                 <hr class="my-3">
                 <!--Heading-->
-                <h6 class="navbar-heading text-muted">Documentation</h6>
+                <!-- <h6 class="navbar-heading text-muted">Documentation</h6> -->
                 <!--Navigation-->
                 <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="https://demos.creative-tim.com/vue-argon-dashboard/documentation">
-                            <i class="ni ni-spaceship"></i> Getting started
-                        </a>
+                    <li class="nav-item cerrar-sesion" @click="cerrarSesion">
+                        <p class="nav-link"
+                           href=#>
+                            <i class="ni ni-user-run primary"></i> Cerrar sesión
+                        </p>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link"
                            href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/foundation/colors.html">
                             <i class="ni ni-palette"></i> Foundation
@@ -102,7 +102,7 @@
                            href="https://demos.creative-tim.com/vue-argon-dashboard/documentation/components/alerts.html">
                             <i class="ni ni-ui-04"></i> Components
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             </div>
@@ -110,7 +110,7 @@
 </template>
 <script>
   import NavbarToggleButton from '@/components/NavbarToggleButton'
-
+  import { mapMutations } from 'vuex'
   export default {
     name: 'sidebar',
     components: {
@@ -134,6 +134,17 @@
       };
     },
     methods: {
+      ...mapMutations("usuario",["userIsAdmin", "setUsuarioToken"]),
+      ...mapMutations("estudiante",["guardarEstudiante"]),
+      
+      cerrarSesion() {
+        this.userIsAdmin("")
+        this.setUsuarioToken("")
+        this.guardarEstudiante({})
+        this.$router.push({ name: "MuniAuth" })
+        localStorage.removeItem("admin")
+        localStorage.removeItem("userToken")
+      },
       closeSidebar() {
         this.$sidebar.displaySidebar(false)
       },
@@ -148,3 +159,8 @@
     }
   };
 </script>
+<style scoped>
+.cerrar-sesion {
+  cursor:pointer
+}
+</style>

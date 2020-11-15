@@ -10,7 +10,7 @@ import * as auth from '@/api/auth';
 import { mapMutations } from 'vuex';
 export default {
 
-created () {
+beforeCreate () {
   auth.getInitialToken()
     .then( res => {
       this.setAppToken(res.data.access_token)
@@ -24,7 +24,9 @@ created () {
   },
 
   methods: {
-    ...mapMutations('appToken', [ "setAppToken" ] )
+    ...mapMutations('appToken', [ "setAppToken" ] ),
+    ...mapMutations('estudianteToken', [ "setEstudianteToken" ] ),
+    ...mapMutations('usuario', [ "userIsAdmin" ] )
   }
 }
 </script>

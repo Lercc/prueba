@@ -13,8 +13,6 @@ export default {
       relacionApoderado: '',
       anioCulminacion: '',
       apoderadoId: '',
-      //user
-      correo: ''
     }
   },
   mutations: {
