@@ -1,7 +1,7 @@
 <template>
     <div class="main-content bg-default muniAuth">
         <!-- MuniAuth NAVBAR -->
-        <base-nav class="navbar-top navbar-horizontal navbar-dark"
+        <auth-nav class="navbar-top navbar-horizontal navbar-dark"
                   containerClasses="px-4 container"
                   expand>
             <router-link slot="brand" class="navbar-brand" to="/">
@@ -56,7 +56,7 @@
                     </li> -->
                 </ul>
             </template>
-        </base-nav>
+        </auth-nav>
         <!-- MuniAuth HEADER -->
         <div class="header bg-gradient-success py-7 py-lg-8 muni-header" >
             <div class="container">

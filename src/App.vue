@@ -2,9 +2,9 @@
   <div id="app">
     <notifications v-show="!componentLoading"></notifications>
     <router-view v-show="!componentLoading"/>
-    <div class="app-loader-content " v-show="componentLoading">
+    <!-- <div class="app-loader-content " v-show="componentLoading">
       <hash-loader class="loader" :loading="componentLoading" :size = "120"  :color="'#2B2D64'"/>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
 
   data() {
     return {
-      componentLoading: false,
+      componentLoading: true,
     }
   },
 
@@ -24,7 +24,7 @@ export default {
   },
 
   beforeCreate () {
-    this.componentLoading = true
+    // this.componentLoading = true
     auth.getInitialToken()
       .then( res => {
         this.setAppToken(res.data.access_token)
