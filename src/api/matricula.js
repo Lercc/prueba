@@ -10,7 +10,7 @@ const API_URL = `https://laravel-academic-test.herokuapp.com/api`
 // REQUEST `students/*/cycles/*/enrollments`
 function crearEnrollment(pIdEstudiante, pIdCiclo, pFormData) {
   const REQUEST = `students/${pIdEstudiante}/cycles/${pIdCiclo}/enrollments`
-  const headers = { Authorization : `Bearer ${store.state.estudianteToken.token}`}
+  const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
@@ -23,7 +23,7 @@ function crearVoucher(pFormData) {
   const REQUEST = `vouchers`
   const headers = { 
     'Content-Type': 'multipart/form-data',
-    Authorization : `Bearer ${store.state.estudianteToken.token}`
+    Authorization : `Bearer ${store.state.usuario.token}`
   }
   return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }

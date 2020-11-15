@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content bg-default">
+    <div class="main-content bg-default muniAuth">
         <!-- MuniAuth NAVBAR -->
         <base-nav class="navbar-top navbar-horizontal navbar-dark"
                   containerClasses="px-4 container"
@@ -58,7 +58,7 @@
             </template>
         </base-nav>
         <!-- MuniAuth HEADER -->
-        <div class="header bg-gradient-success py-7 py-lg-8">
+        <div class="header bg-gradient-success py-7 py-lg-8 muni-header" >
             <div class="container">
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
@@ -76,7 +76,7 @@
             </div>
         </div>
         <!-- MuniAut PAGE CONTENT -->
-        <div class="container mt--9 pb-5">
+        <div class="container mt--9 pb-5 muniAuth-content">
             <slide-y-up-transition mode="out-in" origin="center top">
                 <router-view></router-view>
             </slide-y-up-transition>
@@ -119,5 +119,28 @@
     }
   }
 </script>
-<style>
+<style scoped>
+.muniAuth-content {
+    min-height: 60vh;
+}
+@media screen and (min-width: 1024px) {
+    .muniAuth-content {
+        min-height: 53vh;
+    }
+}
+@media screen and (min-width: 1340px) {
+    .muniAuth-content {
+        min-height: 20vh;
+    }
+}
+@media screen and (min-width: 1440px) {
+    .muniAuth-content {
+        min-height: 52.3vh;
+    }
+}
+@media screen and (min-width: 1800px) {
+    .muniAuth-content {
+        min-height: 69vh;
+    }
+}
 </style>
