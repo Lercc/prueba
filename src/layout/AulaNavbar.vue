@@ -43,7 +43,7 @@
                         <div class="dropdown-divider"></div>
                         <p class="dropdown-item cerrar-sesion" @click="cerrarSesion">
                             <i class="ni ni-user-run"></i>
-                            <span>Logout</span>
+                            <span>Salir</span>
                         </p>
                     </template>
                 </base-dropdown>
@@ -69,9 +69,10 @@
         this.userIsAdmin("")
         this.setUsuarioToken("")
         this.guardarEstudiante({})
-        this.$router.push({ name: "MuniAuth" })
         localStorage.removeItem("admin")
         localStorage.removeItem("userToken")
+        localStorage.removeItem("id")
+        this.$router.push({ name: "MuniAuth" })
       },
 
       toggleSidebar() {

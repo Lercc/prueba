@@ -3,7 +3,9 @@ import store from '../store';
 
 //CONSTANTES
 // const API_URL = `http://127.0.0.1:8000/api`
-const API_URL = `https://laravel-academic-test.herokuapp.com/api`
+// const API_URL = `https://laravel-academic-test.herokuapp.com/api`
+// const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api`
+const API_URL = store.state.apiRest.url
 
 /**
  * APODERADO

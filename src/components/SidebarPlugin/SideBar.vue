@@ -52,10 +52,10 @@
                             <span>Support</span>
                         </router-link>
                         <div class="dropdown-divider"></div>
-                        <a href="#!" class="dropdown-item">
+                        <p class="dropdown-item" @click="cerrarSesion" style="cursor:pointer">
                             <i class="ni ni-user-run"></i>
-                            <span>Logout</span>
-                        </a>
+                            <span>salir</span>
+                        </p>
                     </base-dropdown>
                 </ul>
             </slot>
@@ -141,9 +141,10 @@
         this.userIsAdmin("")
         this.setUsuarioToken("")
         this.guardarEstudiante({})
-        this.$router.push({ name: "MuniAuth" })
         localStorage.removeItem("admin")
         localStorage.removeItem("userToken")
+        localStorage.removeItem("id")
+        this.$router.push({ name: "MuniAuth" })
       },
       closeSidebar() {
         this.$sidebar.displaySidebar(false)

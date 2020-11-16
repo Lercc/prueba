@@ -6,13 +6,12 @@
       title="Argon"
     >
       <template slot="links">
-        <sidebar-item :link="{name: 'Home', icon: 'ni ni-tv-2 text-primary', path: '/home'}"/>
+        <sidebar-item :link="{name: 'Inicio', icon: 'ni ni-tv-2 text-primary', path: '/home'}"/>
         <sidebar-item :link="{name: 'Perfil', icon: 'ni ni-single-02 text-yellow', path: '/profile'}"/>
-        <sidebar-item :link="{name: 'Matrícula', icon: 'ni ni-ruler-pencil text-green', path: '/matricula'}"/>
+        <sidebar-item :link="{name: 'Mis Matrículas', icon: 'ni ni-ruler-pencil text-green', path: '/misMatriculas'}"/>
+        <sidebar-item :link="{name: 'Nueva Matrícula', icon: 'ni ni-ruler-pencil text-green', path: '/matricula'}"/>
         <sidebar-item :link="{name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons'}"/>
-        <sidebar-item :link="{name: 'Tables', icon: 'ni ni-bullet-list-67 text-red', path: '/tables'}"/>
         <sidebar-item :link="{name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login'}"/>
-
       </template>
     </side-bar>
 
@@ -35,6 +34,8 @@
   import AulaNavbar from '@/layout/AulaNavbar.vue';
   import AulaFooter from '@/layout/AulaFooter.vue';
   import { FadeTransition } from 'vue2-transitions';
+  import { getAllCiclos, getAllAreas, getAllCarreras} from '@/api/generalData'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: 'muni-aula-virtual',
@@ -48,7 +49,27 @@
         sidebarBackground: 'vue' //vue|blue|orange|green|red|primary
       };
     },
+    created() {
+        getAllCiclos()
+          .then( res => {
+            // console.log("ciclos",res)
+            this.setCiclos(res.data.data)
+            return getAllAreas()
+          })
+          .then( res => {
+            // console.log("areas",res)
+            this.setAreas(res.data.data)
+            return getAllCarreras()
+          })
+          .then( res => {
+            // console.log("carreras",res)
+            this.setCarreras(res.data.data)
+          })
+    },
     methods: {
+      ...mapMutations('ciclos',["setCiclos"]),
+      ...mapMutations('areas',["setAreas"]),
+      ...mapMutations('carreras',["setCarreras"]),
       toggleSidebar() {
         if (this.$sidebar.showSidebar) {
           this.$sidebar.displaySidebar(false);

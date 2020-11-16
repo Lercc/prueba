@@ -80,6 +80,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "profile" */ './views/UserProfile.vue')
         },
         {
+          path: '/misMatriculas',
+          name: 'misMatriculas',
+          component: () => import(/* webpackChunkName: "matricula" */ './views/MuniAulaVirtual/componentes/MisMatriculas.vue')
+        },
+        {
           path: '/matricula',
           name: 'matricula',
           component: () => import(/* webpackChunkName: "matricula" */ './views/MuniAulaVirtual/componentes/Matricula.vue')
@@ -88,11 +93,6 @@ export default new Router({
           path: '/icons',
           name: 'icons',
           component: () => import(/* webpackChunkName: "icons" */ './views/Icons.vue')
-        },
-        {
-          path: '/tables',
-          name: 'tables',
-          component: () => import(/* webpackChunkName: "tables" */ './views/Tables.vue')
         }
       ]
     },
@@ -119,6 +119,11 @@ export default new Router({
           name: 'adminIcons',
           component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/Icons.vue')
         },
+        // {
+        //   path: '/mostrarMatriculas',
+        //   name: 'mostrarMatriculas',
+        //   component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/MostrarMatriculas.vue')
+        // },
         {
           path: '/adminProfile',
           name: 'adminProfile',

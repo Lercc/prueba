@@ -25,6 +25,7 @@ export default {
     Vue.component(BaseAlert.name, BaseAlert);
     Vue.component(BaseButton.name, BaseButton);
     Vue.component(BaseInput.name, BaseInput);
+    +
     Vue.component(AuthNav.name, AuthNav);
     Vue.component(BaseNav.name, BaseNav);
     Vue.component(BaseDropdown.name, BaseDropdown);

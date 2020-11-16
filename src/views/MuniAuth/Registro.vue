@@ -1099,6 +1099,7 @@ export default {
             this.estudiante.apPater = estudiante[0].apellidos.substr(0,indiceDeSeparacion)
             this.estudiante.apMater = estudiante[0].apellidos.substr(indiceDeSeparacion+1)
             this.estudiante.dni = estudiante[0].dni
+            this.estudiante.correo = estudiante[0].correo
         
             this.estudianteYaExiste = true
             this.btnCambiarEstudiante = true
@@ -1181,6 +1182,9 @@ export default {
               if(res === 'login') {
                 this.$router.push({ name: "login"});
               }
+            })
+            .finally( () => {
+              console.log("end swal")
             })
             //
 

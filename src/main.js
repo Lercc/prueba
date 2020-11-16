@@ -12,6 +12,13 @@ import store from '@/store';
 //spinner loading
 import { VueSpinners } from '@saeris/vue-spinners';
 
+//utils
+import { cicloId, areaId, carreraId,estadoMatricula } from "@/utils";
+Vue.filter("ciclo", cicloId);
+Vue.filter("area", areaId);
+Vue.filter("carrera", carreraId);
+Vue.filter("estadoMatricula", estadoMatricula);
+
 Vue.config.productionTip = false;
 
 Vue.use(ArgonDashboard),

@@ -11,6 +11,7 @@
                 <span class="nav-link-text">{{ link.name }}</span>
             </template>
         </router-link>
+        
     </li>
 </template>
 <script>

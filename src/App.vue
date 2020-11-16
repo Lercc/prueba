@@ -42,12 +42,14 @@ export default {
     methods: {
       ...mapMutations('appToken', [ "setAppToken" ] ),
       ...mapMutations('usuario', [ "userIsAdmin", "setUsuarioToken"]),
+      ...mapMutations('estudiante', ['guardarId']),
     
       cargarLocalStorageData() {
         if (localStorage.getItem("admin")==="true") this.userIsAdmin(true)
         else this.userIsAdmin(false)
 
         if (localStorage.getItem("userToken")) this.setUsuarioToken(localStorage.getItem("userToken"))
+        if (localStorage.getItem("id")) this.guardarId(localStorage.getItem("id"))
 
         if (this.admin && this.token ) this.$router.push({ name: "MuniAdmin" })
         if (!this.admin && this.token ) this.$router.push({ name: "MuniAulaVirtual" })

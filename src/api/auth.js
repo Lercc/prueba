@@ -9,11 +9,12 @@ import axios from 'axios';
 // Client ID: 3
 // Client secret: S2RM9zhj2x2IpZOkZLw7yl5rPUnN6DOHCquyRonh
 
-const CLIENT_ID =  6
-const CLIENT_PASSWORD =  "mmxu0ER1gXIqPshEVClGlhVcITET57eM5HVXLMfX"
+const CLIENT_ID =  1
+const CLIENT_PASSWORD =  "nE3eZEBhDoyhsLin6om8zYSBxlOscLpj1eVfCfq4"
 
 // const API_URL = `http://127.0.0.1:8000/api/oauth/token`
-const API_URL = `https://laravel-academic-test.herokuapp.com/api/oauth/token`
+// const API_URL = `https://laravel-academic-test.herokuapp.com/api/oauth/token`
+const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api/oauth/token`
 
 //TOKEN AL INicializar el APP
 function getInitialToken() {
@@ -31,8 +32,8 @@ function getInitialToken() {
 // function getStudentToken(pCorreo,pContrasenia) {
 function getStudentToken(pCorreo,pContrasenia) {
 
-  const CLIENT_IDS =  7
-  const CLIENT_PASSWORDS =  "uzGzezGLa26CEMZ0X0ENl1oreBnNOhyDexuzSKin" 
+  const CLIENT_IDS = 2
+  const CLIENT_PASSWORDS =  "VJATzS3gBXD9VC6rhoD5WY2q5QomTQorl2CRhj7u" 
 
   const CORREO = pCorreo;
   const CONTRASENIA = pContrasenia;

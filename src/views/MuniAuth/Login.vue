@@ -56,7 +56,7 @@
 </template>
 <script>
 import * as auth from '@/api/auth'
-import { getMe } from '@/api/generalData'
+import { getMe} from '@/api/generalData'
 import { mapMutations } from 'vuex'
 
 import swal from 'sweetalert';
@@ -81,6 +81,7 @@ import swal from 'sweetalert';
           })
           .then( res => {
             this.guardarId(res.data.id)
+            localStorage.setItem("id",res.data.id)
             if (res.data.admin==="true") {
               this.userIsAdmin(true)
               localStorage.setItem("admin",true)
@@ -90,6 +91,7 @@ import swal from 'sweetalert';
               localStorage.setItem("admin",false)
               this.$router.push({ name: "matricula" })
             }
+            return getMe()
           })
           .catch( error => {
             console.log(error)

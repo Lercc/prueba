@@ -2,7 +2,7 @@
     <div>
         <base-header type="gradient-success" class="pb-6 pb-8 pt-5 pt-md-8">
             <!-- Card stats -->
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-xl-3 col-lg-6">
                     <stats-card title="Total traffic"
                                 type="gradient-red"
@@ -56,30 +56,32 @@
                         </template>
                     </stats-card>
                 </div>
-            </div>
+            </div> -->
         </base-header>
 
         <div class="container-fluid mt--7">
-            <div class="row">
+            <div class="row ">
+                <div class="col">
+                  <mismatriculas-table type="Light"  title="Listado de matriculas" />
+                </div>
+            </div>
+            <!-- <div class="row mt-5">
                 <div class="col">
                     <projects-table title="Light Table"></projects-table>
                 </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col">
-                    <projects-table type="dark" title="Dark Table"></projects-table>
-                </div>
-            </div>
+            </div> -->
         </div>
 
     </div>
 </template>
 <script>
-  import ProjectsTable from './Tables/ProjectsTable'
+//   import ProjectsTable from '@/views/Tables/ProjectsTable'
+  import MismatriculasTable from './tablas/MismatriculasTable'
   export default {
-    name: 'tables',
-    components: {
-      ProjectsTable
+    name: 'misMatriculas',
+    components: { 
+        // ProjectsTable, 
+        MismatriculasTable,
     }
   };
 </script>
