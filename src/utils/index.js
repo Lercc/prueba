@@ -9,7 +9,8 @@ const cicloId = function(pID) {
 
 //area
 const areaId = function(pID) {
-  let conincide = store.state.areas.areas.filter( f => f.id == pID )
+  let areaID = store.state.carreras.carreras.filter( f => f.id == pID )[0].area_id
+  let conincide = store.state.areas.areas.filter( f => f.id == areaID )
   // console.log(conincide)
   return conincide[0].nombre
 };
