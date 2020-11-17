@@ -8,6 +8,7 @@ import areas from './modules/areas';
 import carreras from './modules/carreras';
 import ciclos from './modules/ciclos';
 import estudiante from './modules/estudiante';
+import temp from './modules/temp';
 import usuario from './modules/usuario';
 
 Vue.use(Vuex);
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     carreras,
     ciclos,
     estudiante,
+    temp,
     usuario
   }
 });

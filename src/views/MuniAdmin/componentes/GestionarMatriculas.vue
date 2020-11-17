@@ -62,7 +62,7 @@
         <div class="container-fluid mt--7">
             <div class="row ">
                 <div class="col">
-                  <mismatriculas-table type="Dark"  title="Listado de matriculas" />
+                  <gestionmatriculas-table type="Dark"  title="Listado de matriculas" />
                 </div>
             </div>
         </div>
@@ -70,13 +70,11 @@
     </div>
 </template>
 <script>
-//   import ProjectsTable from '@/views/Tables/ProjectsTable'
-  import MismatriculasTable from '@/views/Tables/MismatriculasTable'
+  import GestionmatriculasTable from '@/views/Tables/GestionmatriculasTable'
   export default {
     name: 'misMatriculas',
     components: { 
-        // ProjectsTable, 
-        MismatriculasTable,
+        GestionmatriculasTable
     }
   };
 </script>

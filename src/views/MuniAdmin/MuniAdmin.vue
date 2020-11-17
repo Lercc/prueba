@@ -9,7 +9,7 @@
         <sidebar-item :link="{name: 'Admin Icons', icon: 'ni ni-tv-2 text-primary', path: '/adminIcons'}"/>
         <sidebar-item :link="{name: 'Admin Perfil', icon: 'ni ni-single-02 text-yellow', path: '/adminProfile'}"/>
         <sidebar-item :link="{name: 'no admin Matricula', icon: 'ni ni-single-02 text-yellow', path: '/matricula'}"/>
-        <sidebar-item :link="{name: 'Matriculas Pendientes', icon: 'ni ni-single-02 text-yellow', path: '/mostrarMatriculas'}"/>
+        <sidebar-item :link="{name: 'Gestionar Matrículas', icon: 'ni ni-bullet-list-67 text-green', path: '/gestionarMatriculas'}"/>
       </template>
     </side-bar>
 
@@ -32,6 +32,9 @@
   import AulaNavbar from '@/layout/AulaNavbar.vue';
   import AulaFooter from '@/layout/AulaFooter.vue';
   import { FadeTransition } from 'vue2-transitions';
+  import { getAllCiclos, getAllAreas, getAllCarreras} from '@/api/generalData';
+  import { mapMutations } from 'vuex';
+
 
   export default {
     name: 'muni-admin',
@@ -45,7 +48,34 @@
         sidebarBackground: 'vue' //vue|blue|orange|green|red|primary
       };
     },
+    created() {
+        getAllCiclos()
+          .then( res => {
+            // console.log("ciclos",res)
+            this.setCiclos(res.data.data)
+            return getAllAreas()
+          })
+          .then( res => {
+            // console.log("areas",res)
+            this.setAreas(res.data.data)
+            return getAllCarreras()
+          })
+          .then( res => {
+            // console.log("carreras",res)
+            this.setCarreras(res.data.data)
+          })
+          .catch( err => {
+            console.error(err);
+          })
+          .finally( () => {
+            console.log("Get ALL end")
+          }) 
+    },
     methods: {
+      ...mapMutations('ciclos',["setCiclos"]),
+      ...mapMutations('areas',["setAreas"]),
+      ...mapMutations('carreras',["setCarreras"]),
+      
       toggleSidebar() {
         if (this.$sidebar.showSidebar) {
           this.$sidebar.displaySidebar(false);

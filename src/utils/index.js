@@ -1,4 +1,4 @@
-import store from "@/store"
+import store from "@/store";
 
 //ciclo
 const cicloId = function(pID) {
@@ -21,6 +21,7 @@ const carreraId = function(pID) {
   // console.log(conincide)
   return conincide[0].nombre
 };
+
 
 //estadoMAtricula
 const estadoMatricula = function(pEstado) {

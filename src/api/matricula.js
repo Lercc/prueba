@@ -22,6 +22,13 @@ function getEnrollments() {
   const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
+// OBTENER TODAS MATRICULAS
+// REQUEST `students/*/cycles/*/enrollments`
+function getAllEnrollments() {
+  const REQUEST = `enrollments`
+  const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
+  return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
 
 
 
@@ -42,4 +49,4 @@ function crearVoucher(pFormData) {
 
 
 //Exportamos la funcion para poder usarla más tarde
-export { crearEnrollment, crearVoucher, getEnrollments }
+export { crearEnrollment, crearVoucher, getEnrollments, getAllEnrollments }

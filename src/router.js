@@ -119,11 +119,11 @@ export default new Router({
           name: 'adminIcons',
           component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/Icons.vue')
         },
-        // {
-        //   path: '/mostrarMatriculas',
-        //   name: 'mostrarMatriculas',
-        //   component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/MostrarMatriculas.vue')
-        // },
+        {
+          path: '/gestionarMatriculas',
+          name: 'gestionarMatriculas',
+          component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/GestionarMatriculas.vue')
+        },
         {
           path: '/adminProfile',
           name: 'adminProfile',
