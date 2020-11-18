@@ -4,7 +4,7 @@ import store from "@/store";
 const cicloId = function(pID) {
   let conincide = store.state.ciclos.ciclos.filter( f => f.id == pID )
   // console.log(conincide)
-  return conincide[0].nombre
+  return conincide[0].nombre.substr(6)
 };
 
 //area
@@ -12,7 +12,7 @@ const areaId = function(pID) {
   let areaID = store.state.carreras.carreras.filter( f => f.id == pID )[0].area_id
   let conincide = store.state.areas.areas.filter( f => f.id == areaID )
   // console.log(conincide)
-  return conincide[0].nombre
+  return conincide[0].nombre.substr(5)
 };
 
 //carrera
@@ -21,7 +21,6 @@ const carreraId = function(pID) {
   // console.log(conincide)
   return conincide[0].nombre
 };
-
 
 //estadoMAtricula
 const estadoMatricula = function(pEstado) {
@@ -35,4 +34,11 @@ const estadoMatricula = function(pEstado) {
   }
 };
 
-export { cicloId, areaId, carreraId,estadoMatricula }
+//subSTR
+const subCadena = function(pCadena) {
+  // console.log(pCadena)
+  if (pCadena.length > 23) return pCadena.substr(0,24)+'...'
+  else return pCadena
+};
+
+export { cicloId, areaId, carreraId,estadoMatricula,subCadena }

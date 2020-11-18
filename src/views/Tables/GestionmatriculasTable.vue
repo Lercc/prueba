@@ -9,9 +9,9 @@
             {{title}}
           </h3>
         </div>
-        <div class="col text-right">
+        <!-- <div class="col text-right">
           <base-button type="primary" size="sm">See all</base-button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -45,15 +45,19 @@
           </td>
 
           <td>
-            {{ row.carrera | carrera }}
+            {{ row.carrera | carrera | subCadena }}
           </td>
 
           <td>
-            {{ row.estudiante }}
+            {{ nombreCompleto(row.estudiante) }}
           </td>
 
           <td>
-            {{ row.matricula }}
+            <b-button 
+              variant="outline-primary" 
+              size="sm" 
+              @click="mostrarVouchers(row.matricula)" 
+            >Voucher(s)</b-button>
           </td>
 
           <td>
@@ -74,14 +78,19 @@
 
     <div class="card-footer d-flex justify-content-end"
          :class="type === 'dark' ? 'bg-transparent': ''">
-      <base-pagination :total="5" :pageCount="2" :perPage="2" ></base-pagination>
+      <base-pagination 
+        :pageCount="totalPage" 
+        :perPage="perPage"
+        :value="currentPage"
+        @input="obtenerTodasMatriculas"
+      ></base-pagination>
     </div>
 
   </div>
 </template>
 <script>
   import * as matricula from '@/api/matricula';
-  // import { getStudent } from "@/api/estudiante";
+  import { getStudent } from "@/api/estudiante";
 
   export default {
     name: 'gestionmatriculas-table',
@@ -94,35 +103,43 @@
     data() {
       return {
         tableData: [],
+        studentsData: [],
         //PAGINATIONS
-        count: '',        //cantifad
-        currentPage: '',  //pagina actual
-        total: '',        //total
-        perPage: '',      //por pagina
-        totalPage: '',     //total de paginas
+        count: 0,        //cantifad
+        currentPage: 0,  //pagina actual
+        total: 0,        //total
+        perPage: 0,      //por pagina
+        totalPage: 0,     //total de paginas
         links: {}          //navegacion
       }
     },
     created() {
-      this.obtenerTodasMatriculas()
+      this.obtenerTodasMatriculas(1)
     },
     methods: {
-      obtenerTodasMatriculas() {
-        matricula.getAllEnrollments()
+      obtenerTodasMatriculas(pPage) {
+        matricula.getAllEnrollments(pPage)
           .then( res => {
-            console.log(res)
-            let datos = res.data.data.map( (m, i) => ({
-                num : i+1,
-                ciclo: m.ciclo_id,
-                area: m.carrera_id,
-                carrera: m.carrera_id,
-                estudiante: m.estudiante_id,
-                matricula: m.id,
-                statusType: m.estado,
-                estado: m.estado
-              }))
+            //mapeo de la respuesta
+            let datos = res.data.data.map( m => {
+              getStudent(m.estudiante_id)
+                .then(res => {
+                  this.studentsData.push({id:res.data.data.id, nombre:`${res.data.data.nombre} ${res.data.data.apellidos}`})
+                })
+              return {
+                  num : m.id,
+                  ciclo: m.ciclo_id,
+                  area: m.carrera_id,
+                  carrera: m.carrera_id,
+                  estudiante: m.estudiante_id,
+                  matricula: m.id,
+                  statusType: m.estado,
+                  estado: m.estado
+                }
+            })
             this.tableData = datos
-            console.log(datos)
+
+            //paginacion
             let paginacion = res.data.meta.pagination
             this.count = paginacion.count
             this.currentPage = paginacion.current_page
@@ -138,20 +155,17 @@
             console.log("get AllEnrollments end")
           })
       },
+      nombreCompleto(pId) {
+        let fullname = ''
+        this.studentsData.forEach(e => {
+          if(e.id === pId) fullname = e.nombre
+        });
+        return fullname 
+      },
+      mostrarVouchers(pID) {
+        alert(pID)
+      }
 
-      //estudiante
-      // estudianteId(pID) {
-      //   getStudent(pID)
-      //     .then(res => {
-      //       let { nombre, apellidos } = res.data.data
-      //       store.state.temp.studentFullName = `${apellidos} ${nombre}`
-      //     })
-      //     .catch(err => {
-      //       console.log(err)
-      //       return "nan"
-      //     })
-      //   return `jj`
-      // }
 
     }
   }
