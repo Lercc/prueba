@@ -29,6 +29,7 @@
           <th>Estudiante</th>
           <th>Vauchers</th>
           <th>Estado</th>
+          <th></th>
         </template>
 
         <template slot-scope="{row}">
@@ -71,8 +72,21 @@
             </badge>
           </td>
 
-        </template>
+           <td class="text-right">
+            <base-dropdown class="dropdown" position="right" >
+              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+              </a>
 
+              <template>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </template>
+            </base-dropdown>
+          </td>
+
+        </template>
       </base-table>
     </div>
 
