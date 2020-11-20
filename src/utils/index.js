@@ -37,7 +37,7 @@ const estadoMatricula = function(pEstado) {
 //subSTR
 const subCadena = function(pCadena) {
   // console.log(pCadena)
-  if (pCadena.length > 23) return pCadena.substr(0,24)+'...'
+  if (pCadena.length > 18) return pCadena.substr(0,19)+'...'
   else return pCadena
 };
 

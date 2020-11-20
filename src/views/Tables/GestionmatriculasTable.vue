@@ -61,7 +61,15 @@
           </td>
 
           <td>
-            {{ nombreCompleto(row.estudiante) }}
+            <div class="nombre-loader-content" v-show="nombreLoader">
+              <pulse-loader class="nombreLoader" :loading="nombreLoader" :size = "12"  :color="'#4FA898'"/>
+            </div>
+            <div class="dato" v-show="!nombreLoader">
+              {{ nombreCompleto(row.estudiante) | subCadena }}
+              <span class="dato--detalle" >
+                {{ nombreCompleto(row.estudiante) }}
+              </span>
+            </div>
           </td>
 
           <td>
@@ -69,7 +77,26 @@
               variant="outline-primary" 
               size="sm" 
               @click="mostrarVouchers(row.matricula)" 
-            >Voucher(s)</b-button>
+            >Voucher(s)
+            </b-button>
+            <!-- <div class="voucher mt-3">
+              <modal :show.sync="modalvoucher[row.num]">
+                <h6 slot="header" class="modal-title" id="modal-title-default">Type your modal title</h6>
+
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and
+                    Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
+                    right at the coast of the Semantics, a large language ocean.</p>
+                <p>A small river named Duden flows by their place and supplies it with the necessary
+                    regelialia. It is a paradisematic country, in which roasted parts of sentences
+                    fly into your mouth.</p>
+
+                <template slot="footer">
+                    <base-button type="primary">Save changes</base-button>
+                    <base-button type="link" class="ml-auto" @click="modals.modal1 = false">Close
+                    </base-button>
+                </template>
+              </modal>
+            </div> -->
           </td>
 
           <td>
@@ -130,9 +157,11 @@
       return {
         //
         componentLoading: false,
+        nombreLoader: false,
         //
         tableData: [],
         studentsData: [],
+        modalvoucher: [],
         //PAGINATIONS
         count: 0,        //cantifad
         currentPage: 0,  //pagina actual
@@ -165,9 +194,13 @@
           .then( res => {
             //mapeo de la respuesta
             let datos = res.data.data.map( m => {
+              this.nombreLoader = true
               getStudent(m.estudiante_id)
                 .then(res => {
                   this.studentsData.push({id:res.data.data.id, nombre:`${res.data.data.nombre} ${res.data.data.apellidos}`})
+                })
+                .finally( () => {
+                  this.nombreLoader = false
                 })
               return {
                   num : m.id,
@@ -186,7 +219,8 @@
             })
 
             this.tableData = datos
-
+            //
+            // this.mostrarVouchers = datos.map( m => ({m.num : false}) ) 
             //paginacion
             let paginacion = res.data.meta.pagination
             this.count = paginacion.count
@@ -233,6 +267,29 @@
   position: relative;
 }
 .dato--detalle {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  padding: 9px 9px;
+  margin-bottom: 5px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff !important;
+  border-radius: 3px;
+  transform-origin: left bottom;
+  transform: scale(0);
+  transition: ease-in .20s all
+}
+.dato:hover .dato--detalle{
+  transform: scale(1);
+}
+/* */
+.voucher {
+  position: relative;
+}
+.voucher--content {
+  position: absolute;
+
+  transform-origin: top right;
 
 }
 </style>
