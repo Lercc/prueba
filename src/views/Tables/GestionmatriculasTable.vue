@@ -15,7 +15,13 @@
       </div>
     </div>
 
-    <div class="table-responsive">
+    <!-- LOADER -->
+    <div class="app-loader-content card bg-secondary shadow border-0" v-show="componentLoading">
+      <hash-loader class="loader" :loading="componentLoading" :size = "120"  :color="'#2B2D64'"/>
+    </div>
+    <!-- END LOADER -->
+
+    <div class="table-responsive" v-show="!componentLoading" >
       <base-table class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
@@ -46,7 +52,12 @@
           </td>
 
           <td>
+            <div class="dato">
             {{ row.carrera | carrera | subCadena }}
+              <span class="dato--detalle" >
+                {{ row.carrera | carrera }}
+              </span>
+            </div>
           </td>
 
           <td>
@@ -91,7 +102,8 @@
     </div>
 
     <div class="card-footer d-flex justify-content-end"
-         :class="type === 'dark' ? 'bg-transparent': ''">
+         :class="type === 'dark' ? 'bg-transparent': ''"
+         >
       <base-pagination 
         :pageCount="totalPage" 
         :perPage="perPage"
@@ -116,6 +128,9 @@
     },
     data() {
       return {
+        //
+        componentLoading: false,
+        //
         tableData: [],
         studentsData: [],
         //PAGINATIONS
@@ -128,10 +143,24 @@
       }
     },
     created() {
-      this.obtenerTodasMatriculas(1)
+      this.componentLoading = true
+      matricula.getAllEnrollments(1)
+        .then( response => {
+          this.totalPage = response.data.meta.pagination.total_pages
+          this.perPage = response.data.meta.pagination.per_page
+          this.currentPage = response.data.meta.pagination.current_page
+      })
+        .catch( err => {
+          console.log(err)
+        })
+        .finally( () => {
+          this.componentLoading = false
+          console.log("get first group enrollments end")
+        })
     },
     methods: {
       obtenerTodasMatriculas(pPage) {
+        this.componentLoading = true
         matricula.getAllEnrollments(pPage)
           .then( res => {
             //mapeo de la respuesta
@@ -150,7 +179,12 @@
                   statusType: m.estado,
                   estado: m.estado
                 }
+            }).sort((a,b) => { //ordern acendente a>b return 1    --- descendente a>b return -1
+              if (parseInt(a.num) > parseInt(b.num)) return -1
+              if (parseInt(a.num) < parseInt(b.num)) return 1
+              return 0
             })
+
             this.tableData = datos
 
             //paginacion
@@ -167,6 +201,7 @@
           })
           .finally( () => {
             console.log("get AllEnrollments end")
+            this.componentLoading = false
           })
       },
       nombreCompleto(pId) {
@@ -182,5 +217,22 @@
     }
   }
 </script>
-<style>
+<style scoped>
+
+/* spiner */
+.app-loader-content {
+  height: 450px;
+}
+.loader {
+  left: 50%;
+  top: 50%;
+  transform:translate(-50%,-50%);
+}
+/*  */
+.dato {
+  position: relative;
+}
+.dato--detalle {
+
+}
 </style>
