@@ -179,8 +179,6 @@
       mostrarVouchers(pID) {
         alert(pID)
       }
-
-
     }
   }
 </script>
