@@ -121,7 +121,7 @@ export default new Router({
         },
         {
           path: '/gestionarMatriculas',
-          name: 'gestionarMatriculas',
+          name: 'Gestionar Matriculas',
           component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/GestionarMatriculas.vue')
         },
         {

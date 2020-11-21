@@ -62,7 +62,7 @@
         <div class="container-fluid mt--7">
             <div class="row ">
                 <div class="col">
-                  <gestionmatriculas-table type="Dark"  title="Listado de matriculas" />
+                    <gestionmatriculas-table type="Dark"  title="Listado de matriculas" />
                 </div>
             </div>
         </div>
