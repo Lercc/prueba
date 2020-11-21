@@ -168,7 +168,7 @@
                     :disabled="btnCrearApoderadoDisable" 
                     v-show="mostrarBtnRegistrarApoderado" 
                     @click="crearApoderado" >REGISTRAR APODERADO</b-button>
-                    <p class="text-success" v-show="mostrarBtnRegistrarApoderado" >Rellenar todos los campos para enviar.</p>
+                    <p class="text-success" v-show="btnCrearApoderadoDisable" >Rellenar todos los campos para enviar.</p>
                   <b-button variant="danger" v-show="btnCambiarApoderado" @click="cambiarApoderado" >CAMBIAR APODERADO</b-button>
                   <b-button variant="success" v-show="btnCambiarApoderado" @click="cambiarFormulario" >SIGUIENTE</b-button>
 
@@ -462,7 +462,7 @@
                   </div>
 
                     <b-form-spinbutton
-                      v-show="!getEstudianteLoading"
+                      v-if = "!getEstudianteLoading"
                       v-model = "$v.estudiante.anioCulminacion.$model" 
                       @keyup = "verificarDatosEstudiante"
                       @blur = "$v.estudiante.distrito.$touch"
@@ -526,6 +526,7 @@
                   </div>
 
                   <b-form-input
+                    v-show = "!getEstudianteLoading"
                     type = "password"
                     @keyup = "verificarDatosEstudiante"
                     @blur = "$v.estudiante.correo.$touch"
@@ -549,13 +550,14 @@
 
                 <!-- Grupo 12 ( CONFIRMACION DE CONTRASEÑA) -->
                 <b-form-group 
-                  label="14. Confirmacion de contrasña"
+                  label="12. Confirmacion de contrasña"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
                   </div>
 
                   <b-form-input
+                    v-show = "!getEstudianteLoading"
                     type = "password"
                     @keyup = "verificarDatosEstudiante"
                     @blur = "$v.estudiante.contrasenia.$touch"
@@ -580,7 +582,7 @@
 
                 <!-- Grupo 10* ( APODERADO) -->
                 <b-form-group v-show="!mayorDeEdad"
-                  label="10. Nombres del apoderado"
+                  label="13. Nombres del apoderado"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -598,7 +600,7 @@
 
                 <!-- Grupo 11* ( PARENTECO ) -->
                 <b-form-group  v-show="!mayorDeEdad"
-                  label="11. Seleccione un parentesco con respecto al apoderado:"
+                  label="14. Seleccione un parentesco con respecto al apoderado:"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -632,7 +634,7 @@
                   :disabled="btnRegistrarEstudianteDisabled"
                   v-show="mostrarBtnRegistrarEstudiante"
                   @click="crearEstudiante" >REGISTRAR ESTUDIANTE</b-button>
-                <p class="text-success" v-show="mostrarBtnRegistrarEstudiante" >Rellenar todos los campos para enviar.</p>
+                <p class="text-success" v-show="btnRegistrarEstudianteDisabled" >Rellenar todos los campos para enviar.</p>
 
               </b-form>
               

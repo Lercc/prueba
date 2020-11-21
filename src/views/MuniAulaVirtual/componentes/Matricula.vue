@@ -173,6 +173,7 @@
                     @change="verificarDatosMatricula"
                     type="date"
                     min="2020-11-01"
+                    max="2090-12-31"
                     v-model="$v.matricula.fechaVaucher.$model"
                     :state = "$v.matricula.fechaVaucher.$dirty ? !$v.matricula.fechaVaucher.$invalid : null"
                     :disabled="matriculaInputsDisable"

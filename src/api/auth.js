@@ -29,7 +29,7 @@ function getInitialToken() {
 
 
 //TOKEN DE ESTUDAINTE -- CORREO -CONTRASEÑA
-// function getStudentToken(pCorreo,pContrasenia) {
+//function getStudentToken(pCorreo,pContrasenia) {
 function getStudentToken(pCorreo,pContrasenia) {
 
   const CLIENT_IDS = 2

@@ -16,16 +16,16 @@ function crearEnrollment(pIdEstudiante, pIdCiclo, pFormData) {
   return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 // OBTENER MATRICULAS
-// REQUEST `students/*/cycles/*/enrollments`
+// REQUEST `students/*/enrollments`
 function getEnrollments() {
   const REQUEST = `students/${store.state.estudiante.estudiante.id}/enrollments`
   const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
-// OBTENER TODAS MATRICULAS
-// REQUEST `students/*/cycles/*/enrollments`
-function getAllEnrollments() {
-  const REQUEST = `enrollments`
+
+// OBTENER TODAS MATRICULAS POR PAGINa
+function getAllEnrollments(pPage) {
+  const REQUEST = `enrollments?page=${pPage}`
   const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }

@@ -13,11 +13,12 @@ import store from '@/store';
 import { VueSpinners } from '@saeris/vue-spinners';
 
 //utils
-import { cicloId, areaId, carreraId,estadoMatricula } from "@/utils";
+import { cicloId, areaId, carreraId,estadoMatricula, subCadena } from "@/utils";
 Vue.filter("ciclo", cicloId);
 Vue.filter("area", areaId);
 Vue.filter("carrera", carreraId);
 Vue.filter("estadoMatricula", estadoMatricula);
+Vue.filter("subCadena", subCadena);
 
 Vue.config.productionTip = false;
 

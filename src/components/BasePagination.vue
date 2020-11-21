@@ -124,10 +124,10 @@ export default {
   },
   watch: {
     perPage() {
-      this.$emit("input", 1);
+      this.$emit("input", this.pageCount);
     },
     total() {
-      this.$emit("input", 1);
+      this.$emit("input", this.pageCount);
     }
   }
 };

@@ -1,8 +1,13 @@
 <template>
     <div class="row justify-content-center">
         <div class="col-lg-5 col-md-7">
+          <!-- LOADER -->
+          <div class="app-loader-content card bg-secondary shadow border-0" v-show="componentLoading">
+            <hash-loader class="loader" :loading="componentLoading" :size = "120"  :color="'#2B2D64'"/>
+          </div>
+          <!-- END LOADER -->
           <!-- CARD  -->
-          <div class="card bg-secondary shadow border-0">
+          <div class="card bg-secondary shadow border-0" v-show="!componentLoading">
               <!-- CARD  TITLE -->
               <div class="card-header bg-transparent pb-2">
                   <div class="text-muted text-center mt-2 mb-3">
@@ -41,6 +46,7 @@
                             type = "password"
                             placeholder = "Ingrese una contraseña"
                             v-model = "contrasenia"
+                            @keypress="isKeyEnter"
                             >
                           </b-form-input>
                         </b-form-group>
@@ -66,13 +72,19 @@ import swal from 'sweetalert';
       return {
         correo: '',
         contrasenia: '',
+         componentLoading: false,
       };
     },
     methods: {
       ...mapMutations('estudiante', ['guardarId']),
       ...mapMutations('usuario', ['userIsAdmin', 'setUsuarioToken']),
 
+      isKeyEnter(e) {
+        if(e.keyCode == 13) this.getTokenEstudiante();
+      },
+
       getTokenEstudiante() {
+        this.componentLoading = true
         auth.getStudentToken(this.correo,this.contrasenia)
           .then( res => {
             this.setUsuarioToken(res.data.access_token)
@@ -98,6 +110,7 @@ import swal from 'sweetalert';
             swal("Datos ingresados incorrectos","El correo o la contraseña no son válidos","error")
           })
           .finally( () => {
+            this.componentLoading = false
             console.log("get token estudiante  end")
           })
       }
@@ -125,5 +138,14 @@ import swal from 'sweetalert';
 .input--error {
   color: red;
   font-size: 14px;
+}
+// spiner
+.app-loader-content {
+  height: 450px;
+}
+.loader {
+  left: 50%;
+  top: 50%;
+  transform:translate(-50%,-50%);
 }
 </style>

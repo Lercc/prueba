@@ -11,11 +11,12 @@ module.exports = {
     ]
   },
   pwa: {
-    name: 'Vue Argon Dashboard',
-    themeColor: '#172b4d',
-    msTileColor: '#172b4d',
+    name: 'muni-virtual',
+    short_name: "muni-virtual",
+    themeColor: '#4DBA87',
+    msTileColor: '#4DBA87',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: '#172b4d'
+    appleMobileWebAppStatusBarStyle: '#4DBA87'
   },
   css: {
     // Enable CSS source maps.
