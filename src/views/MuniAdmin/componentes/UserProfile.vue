@@ -1,7 +1,7 @@
 <template>
     <div>
         <base-header class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-                     style="min-height: 600px; background-image: url(img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+                     style="min-height: 350px; background-image: url(img/brand/logo-muni-white.png); background-size: cover; background-position: center top;">
             <!-- Mask -->
             <span class="mask bg-gradient-success opacity-8"></span>
             <!-- Header container -->
@@ -25,7 +25,7 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                        <img src="img/theme/team-4-800x800.jpg" class="rounded-circle">
+                                        <img src="img/theme/team-1-800x800.jpg" class="rounded-circle">
                                     </a>
                                 </div>
                             </div>
@@ -81,16 +81,16 @@
                         <div slot="header" class="bg-white border-0">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h3 class="mb-0">My account</h3>
+                                    <h3 class="mb-0">Mi Cuenta</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                                    <a href="#!" class="btn btn-sm btn-primary">Configuraciones</a>
                                 </div>
                             </div>
                         </div>
                         <template>
                             <form @submit.prevent>
-                                <h6 class="heading-small text-muted mb-4">User information</h6>
+                                <h6 class="heading-small text-muted mb-4">Información</h6>
                                 <div class="pl-lg-4">
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -98,7 +98,8 @@
                                                         label="Username"
                                                         placeholder="Username"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.username"
+                                                        v-model="estudiante.username"
+                                                        :disabled="false"
                                             />
                                         </div>
                                         <div class="col-lg-6">
@@ -106,7 +107,7 @@
                                                         label="Email address"
                                                         placeholder="jesse@example.com"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.email"
+                                                        v-model="estudiante.email"
                                             />
                                         </div>
                                     </div>
@@ -116,7 +117,7 @@
                                                         label="First name"
                                                         placeholder="First name"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.firstName"
+                                                        v-model="estudiante.nombre"
                                             />
                                         </div>
                                         <div class="col-lg-6">
@@ -124,14 +125,14 @@
                                                         label="Last name"
                                                         placeholder="Last name"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.lastName"
+                                                        v-model="estudiante.apellidos"
                                             />
                                         </div>
                                     </div>
                                 </div>
                                 <hr class="my-4" />
                                 <!-- Address -->
-                                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                                <h6 class="heading-small text-muted mb-4">Información de Contacto</h6>
                                 <div class="pl-lg-4">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -139,7 +140,7 @@
                                                         label="Address"
                                                         placeholder="Home Address"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.address"
+                                                        v-model="estudiante.distrito"
                                             />
                                         </div>
                                     </div>
@@ -149,7 +150,7 @@
                                                         label="City"
                                                         placeholder="City"
                                                         input-classes="form-control-alternative"
-                                                        v-model="model.city"
+                                                        v-model="estudiante.provincia"
                                             />
                                         </div>
                                         <div class="col-lg-4">
@@ -172,12 +173,12 @@
                                 </div>
                                 <hr class="my-4" />
                                 <!-- Description -->
-                                <h6 class="heading-small text-muted mb-4">About me</h6>
+                                <h6 class="heading-small text-muted mb-4">Acerca de mí</h6>
                                 <div class="pl-lg-4">
                                     <div class="form-group">
                                         <base-input alternative=""
                                                     label="About Me">
-                                            <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                                            <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">Perfil en construcción...</textarea>
                                         </base-input>
                                     </div>
                                 </div>
@@ -195,34 +196,40 @@
     data() {
       return {
         model: {
-          username: '',
-          email: '',
-          firstName: '',
-          lastName: '',
-          address: '',
-          city: '',
-          country: '',
-          zipCode: '',
-          about: '',
+            username: '',
+            email: '',
+            firstName: '',
+            lastName: '',
+            address: '',
+            city: '',
+            country: 'Perú',
+            zipCode: '12000',
+            about: '',
         },
         estudiante:[],
         age:0
       }
     },
+   
     methods:{
         getAge(){
             const  fecha = new Date()
             const year = fecha.getFullYear()
             this.age = year - new Date(this.estudiante.fecha_nacimiento).getFullYear()
             
+        },
+        async getStudentData(){
+            console.log("entrada?")
+            if (localStorage.getItem("estudiante")) {
+                console.log("entrado!")
+                this.estudiante = await JSON.parse(localStorage.getItem("estudiante"))
+                this.getAge()
+            }
         }
     },
     mounted(){
-        if (localStorage.getItem("estudiante")) {
-            this.estudiante=JSON.parse(localStorage.getItem("estudiante"))
-            this.getAge()
+        this.getStudentData();
         }
-    }
-  };
+    };
 </script>
 <style></style>

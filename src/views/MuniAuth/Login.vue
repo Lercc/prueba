@@ -84,7 +84,10 @@ import swal from 'sweetalert';
       isKeyEnter(e) {
         if(e.keyCode == 13) this.getTokenEstudiante();
       },
-
+      async getStudentData(id){
+          const data = await getStudent(id);
+          return data
+      },
       getTokenEstudiante() {
         this.componentLoading = true
         auth.getStudentToken(this.correo,this.contrasenia)
@@ -96,20 +99,22 @@ import swal from 'sweetalert';
           .then( res => {
             this.guardarId(res.data.id)
             localStorage.setItem("id",res.data.id)
-            if (res.data.admin==="true") {
-              this.userIsAdmin(true)
-              localStorage.setItem("admin",true)
-              this.$router.push({ name: "Perfil" })
-            } else {
-              this.userIsAdmin(false)
-              localStorage.setItem("admin",false)
-              this.$router.push({ name: "matricula" })
-            }
             //get data's student
             getStudent(res.data.id).then(({data})=>{
               this.guardarEstudiante(data.data)
               localStorage.setItem("estudiante",JSON.stringify(data.data))
             })
+            //validar rol
+            if (res.data.admin==="true") {
+              this.userIsAdmin(true)
+              localStorage.setItem("admin",true)
+              this.$router.push({ name: "adminIcons" })
+            } else {
+              this.userIsAdmin(false)
+              localStorage.setItem("admin",false)
+              this.$router.push({ name: "matricula" })
+            }
+            
             return;
           })
           .catch( error => {
