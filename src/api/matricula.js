@@ -1,5 +1,6 @@
 import axios from 'axios';
 import store from '../store';
+import qs from 'qs'
 
 // const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api`
 const API_URL = store.state.apiRest.url
@@ -22,12 +23,22 @@ function getEnrollments() {
   const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
-
 // OBTENER TODAS MATRICULAS POR PAGINa
 function getAllEnrollments(pPage) {
   const REQUEST = `enrollments?page=${pPage}`
   const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+// ACTUALIZAR MATRICULA
+// REQUEST `students/*/cycles/*/enrollments`
+function updateEnrollment(pIdEstudiante, pIdCiclo, pIdMatricula, pDAta) {
+  const REQUEST = `students/${pIdEstudiante}/cycles/${pIdCiclo}/enrollments/${pIdMatricula}`
+  const data = qs.stringify(pDAta)
+  const headers = { 
+    'content-type': 'application/x-www-form-urlencoded',
+    Authorization : `Bearer ${store.state.usuario.token}`
+  }
+  return axios.put(`${API_URL}/${REQUEST}`, data, { headers })
 }
 
 
@@ -57,4 +68,4 @@ function getVouchersPerEnrollments(pIdEnrollment) {
 
 
 //Exportamos la funcion para poder usarla más tarde
-export { crearEnrollment, crearVoucher, getEnrollments, getAllEnrollments, getVouchersPerEnrollments }
+export { crearEnrollment, crearVoucher, getEnrollments, getAllEnrollments, getVouchersPerEnrollments, updateEnrollment }

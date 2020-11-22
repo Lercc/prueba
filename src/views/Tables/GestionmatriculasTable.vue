@@ -84,15 +84,18 @@
           </td>
 
           <td>
-             <badge class="badge-dot mr-4">
+             <div class="nombre-loader-content" v-show="row.getStateLoading">
+              <pulse-loader class="nombreLoader" :loading="row.getStateLoading" :size = "12"  :color="'#4FA898'"/>
+            </div>
+             <badge class="badge-dot mr-4" v-show="!row.getStateLoading">
               <i 
-                :class="{ 'bg-success' : row.statusType == 'aprovado',
+                :class="{ 'bg-success' : row.statusType == 'aprobado',
                           'bg-purple' : row.statusType == 'pendiente',
                           'bg-red' : row.statusType == 'desaprobado',
                           'bg-gray' : row.statusType == 'terminado'}">
               </i>
               <span class="status"
-                    :class="{ 'text-success' : row.statusType == 'aprovado',
+                    :class="{ 'text-success' : row.statusType == 'aprobado',
                           'text-purple' : row.statusType == 'pendiente',
                           'text-red' : row.statusType == 'desaprobado',
                           'text-gray' : row.statusType == 'terminado'}"
@@ -107,9 +110,10 @@
               </a>
 
               <template>
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+               <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'pendiente')">Pendiente</p>
+                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'aprobado')">Aprobado</p>
+                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'desaprobado')">Desaprobado</p>
+                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'terminado')">Terminado</p>
               </template>
             </base-dropdown>
           </td>
@@ -141,22 +145,28 @@
             <b-card-text class="d-flex justify-content-between">
               <div>
                 <p style="margin:0" >Estudiante : {{ nombreCompleto(enrollmentData.estudiante) }} </p>
-                <p style="margin:0" >Estado de matricula : <b class="status"
-                    :class="{ 'text-success' : enrollmentData.estado == 'aprovado',
+                <div style="margin:0" class="d-flex">Estado de matricula : 
+                  <span v-show="enrollmentData.getStateLoading" class="ml-2">
+                      <pulse-loader :loading="enrollmentData.getStateLoading" :size = "12"  :color="'#4FA898'"/>
+                  </span>
+                  <b  class="status"
+                      v-show="!enrollmentData.getStateLoading"
+                      :class="{ 'text-success' : enrollmentData.estado == 'aprobado',
                           'text-purple' : enrollmentData.estado == 'pendiente',
                           'text-red' : enrollmentData.estado == 'desaprobado',
                           'text-gray' : enrollmentData.estado == 'terminado'}"
-                > {{enrollmentData.estado}}</b></p>
+                  > {{enrollmentData.estado}}</b>
+                </div>
               </div>
               <base-dropdown class="dropdown" position="right" >
                 <a slot="title" class="btn btn-sm btn-icon-only text-light bg-primary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="ni ni-bold-down text-white" ></i>
                 </a>
                 <template>
-                  <p class="dropdown-item" >Pendiente</p>
-                  <p class="dropdown-item" >Aprobado</p>
-                  <p class="dropdown-item" >Desaprobado</p>
-                  <p class="dropdown-item" >Terminado</p>
+                  <p class="dropdown-item" @click="cambiarEstadoMatricula(enrollmentData,'pendiente', true)">Pendiente</p>
+                  <p class="dropdown-item" @click="cambiarEstadoMatricula(enrollmentData,'aprobado', true)">Aprobado</p>
+                  <p class="dropdown-item" @click="cambiarEstadoMatricula(enrollmentData,'desaprobado', true)">Desaprobado</p>
+                  <p class="dropdown-item" @click="cambiarEstadoMatricula(enrollmentData,'terminado', true)">Terminado</p>
                 </template>
               </base-dropdown>
             </b-card-text>
@@ -215,6 +225,7 @@
         //
         componentLoading: false,
         nombreLoader: false,
+        getStateLoading: false,
         //
         showVouchers: false,
         //
@@ -285,6 +296,33 @@
         })
     },
     methods: {
+      cambiarEstadoMatricula(obj, pEstado, pVoucherView=false) {
+        obj.getStateLoading = true
+        let estadoFormData = {
+            estado: pEstado
+        }
+        matricula.updateEnrollment(obj.estudiante, obj.ciclo, obj.matricula, estadoFormData)
+         .then( res => {
+           if (pVoucherView === true){
+                 this.$set(obj, "estado", res.data.data.estado)
+                 this.$set(obj, "statusType", res.data.data.estado)
+               }
+             
+          this.tableData.forEach( e => {
+            if (e.matricula == obj.matricula) {
+              this.$set(e, "estado", res.data.data.estado)
+              this.$set(e, "statusType", res.data.data.estado)
+            }
+          })
+         })
+         .catch(err => {
+           console.log(err.response)
+         })
+         .finally( () => {
+            obj.getStateLoading = false
+            console.log("updateEnrollment end")
+         })
+      },
       cerrarDetallesVouvher() {
         this.showVouchers = false
         this.enrollmentData = {}
@@ -340,7 +378,8 @@
                   estudiante: m.estudiante_id,
                   matricula: m.id,
                   statusType: m.estado,
-                  estado: m.estado
+                  estado: m.estado,
+                  getStateLoading: false
                 }
             }).sort((a,b) => { //ordern acendente a>b return 1    --- descendente a>b return -1
               if (parseInt(a.num) > parseInt(b.num)) return -1
