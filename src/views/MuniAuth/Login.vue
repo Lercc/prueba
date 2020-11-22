@@ -63,6 +63,8 @@
 <script>
 import * as auth from '@/api/auth'
 import { getMe} from '@/api/generalData'
+import { getStudent} from '@/api/estudiante'
+
 import { mapMutations } from 'vuex'
 
 import swal from 'sweetalert';
@@ -72,11 +74,11 @@ import swal from 'sweetalert';
       return {
         correo: '',
         contrasenia: '',
-         componentLoading: false,
+        componentLoading: false,
       };
     },
     methods: {
-      ...mapMutations('estudiante', ['guardarId']),
+      ...mapMutations('estudiante', ['guardarId','guardarEstudiante']),
       ...mapMutations('usuario', ['userIsAdmin', 'setUsuarioToken']),
 
       isKeyEnter(e) {
@@ -103,7 +105,12 @@ import swal from 'sweetalert';
               localStorage.setItem("admin",false)
               this.$router.push({ name: "matricula" })
             }
-            return getMe()
+            //get data's student
+            getStudent(res.data.id).then(({data})=>{
+              this.guardarEstudiante(data.data)
+              localStorage.setItem("estudiante",JSON.stringify(data.data))
+            })
+            return;
           })
           .catch( error => {
             console.log(error)

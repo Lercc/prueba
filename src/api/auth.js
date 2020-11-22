@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store';
 
 // Client ID: 1
 // Client secret: AxuEYf3ltb7WG3GQOTqxIZtVjrUMUfNWFyle5XCe
@@ -13,9 +14,8 @@ const CLIENT_ID =  1
 const CLIENT_PASSWORD =  "nE3eZEBhDoyhsLin6om8zYSBxlOscLpj1eVfCfq4"
 
 // const API_URL = `http://127.0.0.1:8000/api/oauth/token`
-// const API_URL = `https://laravel-academic-test.herokuapp.com/api/oauth/token`
-const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api/oauth/token`
-
+// const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api/oauth/token`
+const API_URL = `${store.state.apiRest.url}/oauth/token`
 //TOKEN AL INicializar el APP
 function getInitialToken() {
   const BODY = new FormData()

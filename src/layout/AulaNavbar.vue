@@ -17,7 +17,7 @@
                 <base-dropdown class="nav-link pr-0">
                     <div class="media align-items-center" slot="title">
                       <div class="media-body ml-2 d-none d-lg-block">
-                        <span class="mb-0 text-sm  font-weight-bold">Jessica Jones</span>
+                        <span class="mb-0 text-sm  font-weight-bold">{{estudiante.estudiante.nombre}}</span>
                       </div>
                       <span class="avatar avatar-sm rounded-circle">
                         <img alt="Image placeholder" src="img/theme/team-4-800x800.jpg">
@@ -52,7 +52,7 @@
     </base-nav>
 </template>
 <script>
-  import { mapMutations } from 'vuex'; 
+  import { mapMutations, mapState } from 'vuex'; 
   export default {
     data() {
       return {
@@ -60,6 +60,9 @@
         showMenu: false,
         searchQuery: ''
       };
+    },
+    computed:{
+      ...mapState(['estudiante'])
     },
     methods: {
       ...mapMutations("usuario",["userIsAdmin", "setUsuarioToken"]),
@@ -72,6 +75,7 @@
         localStorage.removeItem("admin")
         localStorage.removeItem("userToken")
         localStorage.removeItem("id")
+        localStorage.removeItem("estudiante")
         this.$router.push({ name: "MuniAuth" })
       },
 
@@ -84,6 +88,12 @@
       toggleMenu() {
         this.showMenu = !this.showMenu;
       }
+    },
+    mounted(){
+        if (localStorage.getItem("estudiante")) {
+          this.estudiante.estudiante=JSON.parse(localStorage.getItem("estudiante"))
+        }
+
     }
   };
 </script>
