@@ -186,8 +186,8 @@
     </div>
 
     <div class="card-footer d-flex justify-content-end"
-         :class="type === 'dark' ? 'bg-transparent': ''"
-         >
+        :class="type === 'dark' ? 'bg-transparent': ''"
+        >
       <base-pagination 
         v-show="!showVouchers"
         :pageCount="totalPage" 

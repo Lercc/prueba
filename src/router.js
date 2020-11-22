@@ -98,7 +98,7 @@ export default new Router({
     },
     {
       path: '/',
-      redirect: 'adminIcons',
+      redirect: 'Inicio',
       name: 'MuniAdmin',
       component: MuniAdmin,
       beforeEnter(to, from, next) {
@@ -115,9 +115,9 @@ export default new Router({
       },
       children: [
         {
-          path: '/adminIcons',
-          name: 'adminIcons',
-          component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/Icons.vue')
+          path: '/inicio',
+          name: 'Inicio',
+          component: () => import(/* webpackChunkName: "dashboard" */ './views/MuniAdmin/componentes/Dashboard.vue')
         },
         {
           path: '/gestionarMatriculas',
