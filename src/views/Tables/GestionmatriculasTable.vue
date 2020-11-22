@@ -273,6 +273,8 @@
           this.totalPage = response.data.meta.pagination.total_pages
           this.perPage = response.data.meta.pagination.per_page
           this.currentPage = response.data.meta.pagination.current_page
+          this.total = response.data.meta.pagination.total
+          this.count = response.data.meta.pagination.count
       })
         .catch( err => {
           console.log(err)
