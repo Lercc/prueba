@@ -47,6 +47,14 @@ function crearVoucher(pFormData) {
   return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
+// OBTENER VAUCHER POR MATRICULAS
+//REQUEST `voucher`
+function getVouchersPerEnrollments(pIdEnrollment) {
+  const REQUEST = `vouchers?matricula_id=${pIdEnrollment}`
+  const headers = { Authorization : `Bearer ${store.state.usuario.token}` }
+  return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
+
 
 //Exportamos la funcion para poder usarla más tarde
-export { crearEnrollment, crearVoucher, getEnrollments, getAllEnrollments }
+export { crearEnrollment, crearVoucher, getEnrollments, getAllEnrollments, getVouchersPerEnrollments }

@@ -26,11 +26,13 @@ const carreraId = function(pID) {
 const estadoMatricula = function(pEstado) {
   switch (pEstado) {
     case "pendiente":
-      return "warning"
+      return "red"
     case "aprovado":
       return "success"
     case "terminado":
-      return "danger"
+      return "gray"
+    case "desaprobado":
+      return "red"
   }
 };
 
