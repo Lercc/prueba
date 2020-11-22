@@ -24,21 +24,21 @@
                       </span>
                     </div>
                     <template>
-                        <router-link to="/profile" class="dropdown-item">
+                        <router-link to="/adminProfile" class="dropdown-item">
                             <i class="ni ni-single-02"></i>
-                            <span>My profile</span>
+                            <span>Mi Perfil</span>
                         </router-link>
                         <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
-                            <span>Settings</span>
+                            <span>Configuración</span>
                         </router-link>
                         <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-calendar-grid-58"></i>
-                            <span>Activity</span>
+                            <span>Actividad</span>
                         </router-link>
                         <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-support-16"></i>
-                            <span>Support</span>
+                            <span>Soporte</span>
                         </router-link>
                         <div class="dropdown-divider"></div>
                         <p class="dropdown-item cerrar-sesion" @click="cerrarSesion">

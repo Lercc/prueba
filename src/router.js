@@ -126,7 +126,7 @@ export default new Router({
         },
         {
           path: '/adminProfile',
-          name: 'adminProfile',
+          name: 'Perfil',
           component: () => import(/* webpackChunkName: "profile" */ './views/MuniAdmin/componentes/UserProfile.vue')
         }
       ]

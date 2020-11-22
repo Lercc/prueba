@@ -99,7 +99,7 @@ import swal from 'sweetalert';
             if (res.data.admin==="true") {
               this.userIsAdmin(true)
               localStorage.setItem("admin",true)
-              this.$router.push({ name: "adminProfile" })
+              this.$router.push({ name: "Perfil" })
             } else {
               this.userIsAdmin(false)
               localStorage.setItem("admin",false)
