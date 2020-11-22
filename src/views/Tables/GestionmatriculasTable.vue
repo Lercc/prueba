@@ -22,7 +22,9 @@
     <!-- END LOADER -->
 
     <div class="table-responsive" v-show="!componentLoading" >
-      <base-table class="table align-items-center table-flush"
+      <base-table 
+                  v-show = "!showVouchers"
+                  class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
                   tbody-classes="list"
@@ -76,37 +78,25 @@
             <b-button 
               variant="outline-primary" 
               size="sm" 
-              @click="mostrarVouchers(row.matricula)" 
+              @click="mostrarDetallesVoucher(row.matricula)" 
             >Voucher(s)
             </b-button>
-            <!-- <div class="voucher mt-3">
-              <modal :show.sync="modalvoucher[row.num]">
-                <h6 slot="header" class="modal-title" id="modal-title-default">Type your modal title</h6>
-
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                    Consonantia, there live the blind texts. Separated they live in Bookmarksgrove
-                    right at the coast of the Semantics, a large language ocean.</p>
-                <p>A small river named Duden flows by their place and supplies it with the necessary
-                    regelialia. It is a paradisematic country, in which roasted parts of sentences
-                    fly into your mouth.</p>
-
-                <template slot="footer">
-                    <base-button type="primary">Save changes</base-button>
-                    <base-button type="link" class="ml-auto" @click="modals.modal1 = false">Close
-                    </base-button>
-                </template>
-              </modal>
-            </div> -->
           </td>
 
           <td>
-             <badge class="badge-dot mr-4" :type="row.statusType | estadoMatricula">
+             <badge class="badge-dot mr-4">
               <i 
-                :class="{ 'bg-sucees' : row.statusType == 'aprovado',
-                          'bg-warning' : row.statusType == 'pendiente',
-                          'bg-danger' : row.statusType == 'terminado'}">
+                :class="{ 'bg-success' : row.statusType == 'aprovado',
+                          'bg-purple' : row.statusType == 'pendiente',
+                          'bg-red' : row.statusType == 'desaprobado',
+                          'bg-gray' : row.statusType == 'terminado'}">
               </i>
-              <span class="status">{{row.estado}}</span>
+              <span class="status"
+                    :class="{ 'text-success' : row.statusType == 'aprovado',
+                          'text-purple' : row.statusType == 'pendiente',
+                          'text-red' : row.statusType == 'desaprobado',
+                          'text-gray' : row.statusType == 'terminado'}"
+                >{{row.estado}}</span>
             </badge>
           </td>
 
@@ -126,19 +116,86 @@
 
         </template>
       </base-table>
+      <!-- VOUCHERS DATA -->
+      <div 
+        v-show = "showVouchers"
+        class="bg-secondary">
+        <!-- VOUCHER HEADER -->
+        <div class="d-flex justify-content-center " >
+          <div class="d-flex display-row justify-content-between my-2" style="width:95%">
+            <h3>Voucher(s)</h3>
+              <b-button 
+                @click="cerrarDetallesVouvher"
+                variant="outline-primary" 
+                size="sm"
+              >Volver</b-button>
+          </div>
+        </div>
+        <!-- ENROLLMENT ID DATA -->
+        <div class="d-flex justify-content-center mb-4">
+          <b-card 
+            bg-variant="" 
+            :title="`Matrícula n° ${enrollmentData.num}`" 
+            style="width:95%;"
+            >
+            <b-card-text class="d-flex justify-content-between">
+              <div>
+                <p style="margin:0" >Estudiante : {{ nombreCompleto(enrollmentData.estudiante) }} </p>
+                <p style="margin:0" >Estado de matricula : <b class="status"
+                    :class="{ 'text-success' : enrollmentData.estado == 'aprovado',
+                          'text-purple' : enrollmentData.estado == 'pendiente',
+                          'text-red' : enrollmentData.estado == 'desaprobado',
+                          'text-gray' : enrollmentData.estado == 'terminado'}"
+                > {{enrollmentData.estado}}</b></p>
+              </div>
+              <base-dropdown class="dropdown" position="right" >
+                <a slot="title" class="btn btn-sm btn-icon-only text-light bg-primary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="ni ni-bold-down text-white" ></i>
+                </a>
+                <template>
+                  <p class="dropdown-item" >Pendiente</p>
+                  <p class="dropdown-item" >Aprobado</p>
+                  <p class="dropdown-item" >Desaprobado</p>
+                  <p class="dropdown-item" >Terminado</p>
+                </template>
+              </base-dropdown>
+            </b-card-text>
+          </b-card>
+        </div>
+        <!-- VOUCHER CARD LIST -->
+        <div class="d-flex justify-content-center mb-4" 
+             v-for="(voucher, index) in vouchersData" :key="`vou-${index}`" >
+          <b-card no-body class="overflow-hidden voucher-shadow" style="max-width: 95%;" >
+            <b-row no-gutters>
+              <b-col md="6">
+                <b-card-img :src="voucher.imagen" class="rounded-0" ></b-card-img>
+              </b-col>
+              <b-col md="6">
+                <b-card-body :title="`COD: ${voucher.codigo}`">
+                  <b-card-text>
+                    <p>Fecha: {{ voucher.fecha }}</p>
+                    <p>Estado: {{ voucher.estado }}</p>
+                  </b-card-text>
+                </b-card-body>
+              </b-col>
+            </b-row>
+          </b-card>
+        </div>
+      </div>
+      <!-- END VOUCHERS DATA -->
     </div>
 
     <div class="card-footer d-flex justify-content-end"
          :class="type === 'dark' ? 'bg-transparent': ''"
          >
       <base-pagination 
+        v-show="!showVouchers"
         :pageCount="totalPage" 
         :perPage="perPage"
         :value="currentPage"
         @input="obtenerTodasMatriculas"
       ></base-pagination>
     </div>
-
   </div>
 </template>
 <script>
@@ -159,9 +216,47 @@
         componentLoading: false,
         nombreLoader: false,
         //
+        showVouchers: false,
+        //
         tableData: [],
         studentsData: [],
-        modalvoucher: [],
+        //
+        enrollmentData: {
+          num : 1098,
+          ciclo: 3,
+          area: 35,
+          carrera: 35,
+          estudiante: 630,
+          matricula: 1098,
+          statusType: "pendiente",
+          estado: "pendiente"
+        },
+        vouchersData: [
+          {
+            orden: 2,
+            id: 43,
+            codigo: "0948458968",
+            imagen: "https://test.teampixeland.com/API_ACADEMIA_MUNI/public/assets/images/vouchers/as2Kxo66kEP5ukFEYMzcgEjVKfOTRubG3Z41Ba4o.png",
+            fecha: "2020-11-16 04:55:07",
+            estado: "pending",
+          },
+          {
+            orden: 1,
+            id: 12,
+            codigo: 75155556,
+            imagen: "https://test.teampixeland.com/API_ACADEMIA_MUNI/public/assets/images/vouchers/3.jpg",
+            fecha: "2010-11-16",
+            estado: "pending"
+          },
+          {
+            orden: 2,
+            id: 43,
+            codigo: "0948458968",
+            imagen: "https://test.teampixeland.com/API_ACADEMIA_MUNI/public/assets/images/vouchers/2.jpg",
+            fecha: "2020-11-16 04:55:07",
+            estado: "pending",
+          }
+        ],
         //PAGINATIONS
         count: 0,        //cantifad
         currentPage: 0,  //pagina actual
@@ -190,6 +285,39 @@
         })
     },
     methods: {
+      cerrarDetallesVouvher() {
+        this.showVouchers = false
+        this.enrollmentData = {}
+        this.vouchersData = []
+      },
+      mostrarDetallesVoucher(pIdMatricula) {
+        this.showVouchers = true
+        this.tableData.forEach(e => {
+          if (e.num == pIdMatricula) {
+            this.enrollmentData = {...e}
+          }
+        })
+        matricula.getVouchersPerEnrollments(pIdMatricula)
+          .then( res => {
+            this.vouchersData = res.data.data.map( (m,i) => ({
+              orden: i+1,
+              id: m.id,
+              codigo: m.codigo,
+              imagen: m.imagen,
+              fecha: m.fecha,
+              estado: m.estado,
+            }))
+          })
+          .catch( err => {
+            if ( err.response.status ) console.log(err.response.status)
+          })
+          .finally(() => {
+            console.log("get voucher per enrollment END")
+          })
+
+        // console.log(table)]
+      },
+
       obtenerTodasMatriculas(pPage) {
         this.componentLoading = true
         matricula.getAllEnrollments(pPage)
@@ -247,9 +375,6 @@
         });
         return fullname 
       },
-      mostrarVouchers(pID) {
-        alert(pID)
-      }
     }
   }
 </script>
@@ -285,13 +410,7 @@
   transform: scale(1);
 }
 /* */
-.voucher {
-  position: relative;
-}
-.voucher--content {
-  position: absolute;
-
-  transform-origin: top right;
-
+.voucher-shadow {
+ box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .10);
 }
 </style>
