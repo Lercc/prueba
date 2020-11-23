@@ -108,7 +108,7 @@ import swal from 'sweetalert';
             if (res.data.admin==="true") {
               this.userIsAdmin(true)
               localStorage.setItem("admin",true)
-              this.$router.push({ name: "adminIcons" })
+              this.$router.push({ name: "Inicio" })
             } else {
               this.userIsAdmin(false)
               localStorage.setItem("admin",false)
