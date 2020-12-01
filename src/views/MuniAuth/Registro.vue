@@ -15,24 +15,28 @@
                     <label for="example-datepicker">Ingrese la fecha del nacimiento del estudiante a matricular:</label>
                     <b-form-input
                       type = "date"
-                      min="1940-01-01" 
-                      max="2011-12-31"
+                      min="1970-01-01" 
+                      max="2010-12-31"
                       v-model="edad"
                       :disabled="FormFechaNacDisable"
+                      :state="validationFechaNac"
                       >
                       </b-form-input>
+                      <div>
+                        <b-form-invalid-feedback :state="validationFechaNac">
+                          <span>Ingrese una fecha de nacimiento válida</span>
+                        </b-form-invalid-feedback>
+                      </div>
                 </div>
               </div>
           </div>
           <!-- END CARD -->
-
           <!-- FORM CARD 1--> <!-- FORMULARIO UNO -->
           <b-card v-show="mostrarFormularioUno" no-body class="bg-secondary mt-4 border-0">
             <b-card-body class="px-lg-5 py-lg-5">
               <!-- FORMULARIO UNO -->
               <b-form >
                 <h2 class ="text-center mb-4 tituloFormulario" >DATOS DEL APODERADO</h2>
-
                 <!-- Grupo 1( NUMERO DNI APODERADO) -->
                 <b-form-group
                   label="1. Número de DNI del apoderado:"
@@ -50,21 +54,17 @@
                     :disabled = "inputApoderadoDisable"
                     >
                     </b-form-input>
-
                     <b-form-invalid-feedback>
                       <span v-show = "!$v.apoderado.dni.required"> * el campo dni es requerido</span>
                       <span v-show = "!$v.apoderado.dni.numeric"> * el campo requiere un valor numérico</span>
                       <span v-show = "!$v.apoderado.dni.maxLength"> * el campo dni requeriere máximo 8 dígitos</span>
                       <span v-show = "!$v.apoderado.dni.minLength"> * el campo dni es requerido</span>
                     </b-form-invalid-feedback>
-
                     <span 
                       class="input--error" 
                       v-for="(dniApoError, index) in mostrarErroresInput('dni')" 
                       :key="`dniApoError-${index}`">*  {{ dniApoError }}</span>
-
                 </b-form-group>
-
                 <!-- Grupo 2 ( AP PATERNO APODERADO) -->
                 <b-form-group
                   label="2. Apellido paterno del apoderado:"
@@ -90,22 +90,18 @@
                       <span v-show = "!$v.apoderado.apPater.required"> * el campo es requerido</span>
                       <span v-show = "!$v.apoderado.apPater.letrasValidas"> * el campo requiere solo letras validas</span>
                   </b-form-invalid-feedback>
-
                   <span 
                     class="input--error"
                     v-for="(apellApoError, index) in mostrarErroresInput('apellidos')"
                     :key="`apPaterApoError-${index}`">{{ apellApoError }}</span>
-
                 </b-form-group>
-
                 <!-- Grupo 3 ( AP MATERNO APODERADO ) -->
                 <b-form-group 
                   label="3. Apellido materno del apoderado:"
                   >
-                   <div class = "pb-1  loader-content" v-show="getApoderadoLoading">
+                  <div class = "pb-1  loader-content" v-show="getApoderadoLoading">
                     <pulse-loader class="mt-2 ml-3" :loading="getApoderadoLoading" :size = "15" :color="'#4FA898'"/>
                   </div>
-
                   <b-form-input
                     v-show="!getApoderadoLoading"
                     type = "text"
@@ -118,27 +114,22 @@
                     :disabled = "inputApoderadoDisable"
                     >
                     </b-form-input>
-
                     <b-form-invalid-feedback>
                       <span v-show = "!$v.apoderado.apMater.required"> * el campo es requerido</span>
                       <span v-show = "!$v.apoderado.apMater.letrasValidas"> * el campo requiere solo letras validas</span>
                     </b-form-invalid-feedback>
-
                     <span 
                       class="input--error" 
                       v-for="(apellApoError, index) in mostrarErroresInput('apellidos')" 
                       :key="`apMaterApoError-${index}`">{{ apellApoError }}</span>
-
                 </b-form-group>
-               
                 <!-- Grupo 4 ( NOMBRES APODERADO) -->
                 <b-form-group 
                   label="4. Nombres del apoderado"
                   >
-                   <div class = "pb-1  loader-content" v-show="getApoderadoLoading">
+                  <div class = "pb-1  loader-content" v-show="getApoderadoLoading">
                     <pulse-loader class="mt-2 ml-3" :loading="getApoderadoLoading" :size = "15" :color="'#4FA898'"/>
                   </div>
-
                   <b-form-input
                     v-show="!getApoderadoLoading"
                     type = "text"
@@ -151,7 +142,6 @@
                     :disabled = "inputApoderadoDisable"
                     >
                     </b-form-input>
-
                     <b-form-invalid-feedback>
                       <span v-show = "!$v.apoderado.nombres.required"> * el campo es requerido</span>
                       <span v-show = "!$v.apoderado.nombres.letrasValidas"> * el campo requiere solo letras validas</span>
@@ -163,7 +153,10 @@
                       :key="`nombApoError-${index}`">{{ nombApoError }}</span>
 
                 </b-form-group>
-                
+                <b-form-group
+                  label-align	="center"
+                  style="text-align:center;"
+                >
                   <b-button variant="success"
                     :disabled="btnCrearApoderadoDisable" 
                     v-show="mostrarBtnRegistrarApoderado" 
@@ -171,7 +164,7 @@
                     <p class="text-success" v-show="btnCrearApoderadoDisable" >Rellenar todos los campos para enviar.</p>
                   <b-button variant="danger" v-show="btnCambiarApoderado" @click="cambiarApoderado" >CAMBIAR APODERADO</b-button>
                   <b-button variant="success" v-show="btnCambiarApoderado" @click="cambiarFormulario" >SIGUIENTE</b-button>
-
+                </b-form-group>
               </b-form>
               
             </b-card-body>
@@ -384,21 +377,21 @@
 
                 </b-form-group>
 
-                <!-- Grupo 7 ( PROVINCIA ) -->
+                <!-- Grupo 7 ( Departamentos ) -->
                 <b-form-group 
-                  label="7. Provincia de residencia del estudiante:"
+                  label="7. Departamento de residencia del estudiante:"
                   >
-                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
-                    <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
-                  </div>
+                    <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
+                      <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
+                    </div>
 
                   <b-form-select 
                     v-show="!getEstudianteLoading"
-                    v-model = "$v.estudiante.provincia.$model"
-                    @change = "verificarDatosEstudiante"
-                    @blur = "$v.estudiante.fechNac.$touch"
-                    :options = "Object.keys(provincias)"
-                    :state = "$v.estudiante.provincia.$dirty ? !$v.estudiante.provincia.$invalid : null"
+                    v-model = "$v.estudiante.departamento_id.$model"
+                    @change = "getProvincias"
+                    @blur = "$v.estudiante.departamento_id.$touch"
+                    :options = "Object.values(departamentos)"
+                    :state = "$v.estudiante.departamento_id.$dirty ? !$v.estudiante.departamento_id.$invalid : null"
                     :disabled = "inputEstudianteDisable"
                     >
                     <template #first>
@@ -408,7 +401,7 @@
                   </b-form-select>
 
                   <b-form-invalid-feedback>
-                    <span v-show = "!$v.estudiante.provincia.required"> * el campo es requerido</span>
+                    <span v-show = "!$v.estudiante.departamento_id.required"> * el campo es requerido</span>
                   </b-form-invalid-feedback>
 
                   <span 
@@ -417,7 +410,40 @@
                     :key="`provEstuError-${index}`">{{ provEstuError }}</span>
 
                 </b-form-group>
+                <!-- Grupo 8 ( Provincia ) -->
+                <b-form-group 
+                  label="8. Provincia de residencia del estudiante:"
+                  >
+                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+                  
+                  <b-form-select 
+                    v-show="!getEstudianteLoading"
+                    @change = "getDistritos"
+                    v-model = "$v.estudiante.provincia_id.$model" 
+                    @blur = "$v.estudiante.provincia.$touch"
+                    :options = "Object.values(provincias)"
+                    :state = "$v.estudiante.provincia_id.$dirty ? !$v.estudiante.provincia_id.$invalid : null"
+                    :disabled = "inputEstudianteDisable"
+                    >
+                    <template #first>
+                      <b-form-select-option value="" disabled>-- Seleccione la provincia de residencia--</b-form-select-option>
+                    </template>
+                    <!-- Caso de otra distrito -->
+                    <b-form-select-option value="otraDistrito">Otros</b-form-select-option>
+                  </b-form-select>
 
+                  <b-form-invalid-feedback>
+                    <span v-show = "!$v.estudiante.provincia_id.required"> * el campo es requerido</span>
+                  </b-form-invalid-feedback>
+
+                  <span 
+                    class="input--error" 
+                    v-for="(distEstuError, index) in mostrarErroresInput('distrito')" 
+                    :key="`distEstuError-${index}`">{{ distEstuError }}</span>
+
+                </b-form-group>
                 <!-- Grupo 8 ( DISTRITO ) -->
                 <b-form-group 
                   label="8. Distrito de residencia del estudiante:"
@@ -428,11 +454,11 @@
                   
                   <b-form-select 
                     v-show="!getEstudianteLoading"
-                    @change = "verificarDatosEstudiante"
-                    v-model = "$v.estudiante.distrito.$model" 
-                    @blur = "$v.estudiante.provincia.$touch"
-                    :options = "verificarSeleccionProvincia"
-                    :state = "$v.estudiante.distrito.$dirty ? !$v.estudiante.distrito.$invalid : null"
+                    @change = "getAllUbigeo"
+                    v-model = "$v.estudiante.distrito_id.$model" 
+                    @blur = "$v.estudiante.distrito_id.$touch"
+                    :options = "Object.values(distritos)"
+                    :state = "$v.estudiante.distrito_id.$dirty ? !$v.estudiante.distrito_id.$invalid : null"
                     :disabled = "inputEstudianteDisable"
                     >
                     <template #first>
@@ -443,7 +469,7 @@
                   </b-form-select>
 
                   <b-form-invalid-feedback>
-                    <span v-show = "!$v.estudiante.provincia.required"> * el campo es requerido</span>
+                    <span v-show = "!$v.estudiante.distrito_id.required"> * el campo es requerido</span>
                   </b-form-invalid-feedback>
 
                   <span 
@@ -488,7 +514,7 @@
                 <b-form-group 
                   label="10. Correo"
                   >
-                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading || getCorreoEstudianteLoading" >
+                    <div class = "pb-1  loader-content" v-show="getEstudianteLoading || getCorreoEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading || getCorreoEstudianteLoading" :size = "15" :color="'#4FA898'"/>
                   </div>
 
@@ -645,10 +671,11 @@
 </template>
 <script>
 import * as newUserForm from '@/api/newUserForm';
-import { validationMixin  } from 'vuelidate' 
+import * as ubigeo from '@/api/ubigeo';
+
+import { validationMixin } from 'vuelidate' 
 import { required, minLength, maxLength, numeric, helpers, email , sameAs} from 'vuelidate/lib/validators';
 import swal from 'sweetalert';
-
 const letrasValidas = helpers.regex('alfabetic', /[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+/)
 
 export default {
@@ -662,7 +689,7 @@ export default {
       FormFechaNacDisable: false,
       //
       edad: '',
-      anioNac:'',
+      anioNac:2005,
 
       mayorDeEdad: false,
 
@@ -703,8 +730,12 @@ export default {
         dni: '',
         fechNac: '',
         celular: '',
+        departamento:'',
+        departamento_id:'',
         provincia: '',
+        provincia_id:'',
         distrito: '',
+        distrito_id:'',
         relacionConApoderado: '',
         anioCulminacion: 2020,
         apoderadoId: '',
@@ -712,26 +743,11 @@ export default {
         contrasenia: '',
         passwordConfirmation: '',
       },
-
-      //Provincias
-      provincias: {
-        'Huancayo':['Huancayo','Carhuacallanga','Chicche','Chilca','Chongos Alto','Chupuro','Colca','Cullhuas','El Tambo',
-        'Huacrapuquio','Hualhuas','Huancan','Huasicancha','Huayucachi','Ingenio','Pariahuanca','Pilcomayo','Pucara','Quichuay','Quilcas','San Agustín',' San Jerónimo de Tunan',
-        'Saño','Sapallanga','Sicaya','Santo Domingo de Acobamba','Viques'],
-        'Concepción':['Concepción','Aco','Andamarca','Chambara','Cochas','Comas',' Heroínas Toledo','Manzanares','Mariscal Castilla',
-        'Matahuasi','Mito','Nueve de Julio','Orcotuna','San José de Quero',' Santa Rosa de Ocopa'],
-        'Jauja':['Jauja','Acolla','Apata','Ataura','Canchayllo','Curicaca',' El Mantaro','Huamali','Huaripampa',
-        'Huertas','Janjaillo','Julcán','Leonor Ordóñez','Llocllapampa','Marco','Masma','Masma Chicche','Molinos','Monobamba',
-        'Muqui','Muquiyauyo','Paca','Paccha','Pancan','Parco','Pomacancha','Ricran','San Lorenzo','San Pedro de Chunan',
-        'Sausa','Sincos','Tunan Marca','Yauli','Yauyos'],
-        'Junín':['Junin','Carhuamayo','Ondores','Ulcumayo'],
-        'Tarma':['Tarma','Acobamba','Huaricolca','Huasahuasi','La Unión','Palca','Palcamayo','San Pedro de Cajas','Tapo'],
-        'Chupaca':['Chupaca','Ahuac','Chongos Bajo','Huachac','Huamancaca Chico',' San Juan de Iscos','San Juan de Jarpa',' Tres de Diciembre','Yanacancha'],
-        'Otros':['Amazonas','Áncash','Apurímac','Arequipa','Ayacucho','Cajamarca','Callao','Cusco','Huancavelica','Huánuco',
-        'Ica','La Libertad','Lambayeque','Lima','Loreto','Madre de Dios','Moquegua','Pasco','Piura','Puno','San Martín',
-        'Tacna','Tumbes','Ucayali']
-      },
-
+      //Ubigeo
+      departamentos:[],
+      departamento_id:0,
+      provincias: [],
+      distritos:[],
       //Parentescos
       parentesco: ['Hijo(a)','Sobrino(a)','conocido(a)','vecino(a)','nieto(a)'],
     }
@@ -788,10 +804,22 @@ export default {
         maxLength: maxLength(9),
         minLength: minLength(9)
       },
+      departamento:{
+        required
+      },
+      departamento_id:{
+        required
+      },
       provincia: {
         required
       },
+      provincia_id:{
+        required
+      },
       distrito: {
+        required
+      },
+      distrito_id: {
         required
       },
       relacionConApoderado: {
@@ -815,6 +843,10 @@ export default {
   },
 
   computed :{
+    validationFechaNac(){
+      return !(this.anioNac >2010 || this.anioNac < 1970)
+    },
+    //eliminar
     verificarSeleccionProvincia() {
       let prov = this.estudiante.provincia
       this.$v.estudiante.distrito.$touch
@@ -826,9 +858,9 @@ export default {
 
   watch: {
     edad() {
+
       //yyyy-mm-dd
       this.anioNac = parseInt(this.edad.substr(0,4))
-
       if ( this.anioNac > 1940 && 2020 - this.anioNac >= 18) {
         this.mayorDeEdad = true
         this.mostrarFormularioUno = false
@@ -863,6 +895,7 @@ export default {
 
       this.estudiante.fechNac = this.edad
     },
+    
   },
 
   methods: {
@@ -888,7 +921,6 @@ export default {
         return []
       }
     },
-
     /**
      * APODERADO fn
      */
@@ -934,7 +966,7 @@ export default {
           if( apoderado.length !== 0 ){
             this.inputApoderadoDisable = true
 
-           swal("El apoderado ingresado ya existe", "En caso de quere registrar al estudiante con otro apoderado, dar click en el botón de CAMBIAR APODERADO caso contrario seguir con el registro con el boton SIGUIENTE", "info")
+          swal("El apoderado ingresado ya existe", "En caso de quere registrar al estudiante con otro apoderado, dar click en el botón de CAMBIAR APODERADO caso contrario seguir con el registro con el boton SIGUIENTE", "info")
 
             let indiceDeSeparacion = apoderado[0].apellidos.indexOf(' ')
 
@@ -1032,7 +1064,60 @@ export default {
       newUserForm.getEmailEstudiante(this.estudiante.correo)
         .then()
     },
+    getDepartamentos(){
+      ubigeo.getDepartamentos()
+      .then(({data}) =>this.departamentos=data
+      .map(dep => {
+        const deps = {};
+        deps['value'] = dep.idDepartamento
+        deps['text'] = dep.departamento
+        return deps;
+        }))
+      .catch(console.log)
+    },
+    getProvincias(){
+      this.verificarDatosEstudiante();
+      //obtener el text del departamento escogido
+      const id = this.estudiante.departamento_id;
+      this.estudiante.departamento = this.departamentos.filter(dep => dep.value === id)[0].text;
+      
+      //resetear distrito
+      this.estudiante.provincia_id=null
+      this.estudiante.distrito_id=null
+      this.distritos=[];
+      ubigeo.getProvincias(id)
+      .then(({data})=>this.provincias = data
+      .map( prov =>{
+        const provs = {};
+        provs['value'] = prov.idProvincia
+        provs['text'] = prov.provincia
+        return provs;
+      }))
+      .catch(console.log)
+    },
+    getDistritos(){
+      this.verificarDatosEstudiante();
+      this.estudiante.distrito_id=null
 
+      //obtener el text de la provincia escogido
+      const id = this.estudiante.provincia_id;
+      this.estudiante.provincia = this.provincias.filter(pro => pro.value === id)[0].text;
+
+      ubigeo.getDistritos(id)
+      .then(({data})=>this.distritos = data
+      .map( dist =>{
+        const provs = {};
+        provs['value'] = dist.idDistrito
+        provs['text'] = dist.distrito
+        return provs;
+      }))
+      .catch(console.log)
+    },
+    getAllUbigeo(){
+      this.verificarDatosEstudiante();
+      const id = this.estudiante.distrito_id;
+      this.estudiante.distrito = this.distritos.filter(pro => pro.value === id)[0].text;
+    },
     verificarDatosEstudiante() {
       if (!this.$v.estudiante.$invalid ) {
         this.btnRegistrarEstudianteDisabled = false
@@ -1202,6 +1287,9 @@ export default {
           this.getEstudianteLoading = false
         })
     },
+  },
+  mounted(){
+    this.getDepartamentos();
   }
 };
 </script>
