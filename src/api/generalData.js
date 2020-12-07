@@ -2,10 +2,6 @@ import axios from 'axios';
 import store from '../store';
 
 
-//CONSTANTES
-// const API_URL = `https://laravel-academic-test.herokuapp.com/api`
-
-// const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api`
 const API_URL = store.state.apiRest.url
 
 // REQUEST `cycles`

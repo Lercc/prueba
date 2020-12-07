@@ -48,7 +48,7 @@ export default new Router({
     },
     {
       path: '/',
-      redirect: 'home',
+      redirect: 'matricula',
       name: 'MuniAulaVirtual',
       component: MuniAulaVirtual,
       beforeEnter(to, from, next) {
@@ -127,7 +127,12 @@ export default new Router({
         {
           path: '/adminProfile',
           name: 'Perfil',
-          component: () => import(/* webpackChunkName: "profile" */ './views/MuniAdmin/componentes/UserProfile.vue')
+          component: () => import('./views/MuniAdmin/componentes/UserProfile.vue')
+        },
+        {
+          path: '/ciclos',
+          name: 'Ciclos',
+          component: () => import('./views/MuniAdmin/componentes/Ciclos.vue')
         }
       ]
     },

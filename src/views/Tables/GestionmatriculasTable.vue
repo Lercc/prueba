@@ -234,7 +234,7 @@
         //
         enrollmentData: {
           num : 1098,
-          ciclo: 3,
+          ciclo: 1,
           area: 35,
           carrera: 35,
           estudiante: 630,
@@ -243,30 +243,7 @@
           estado: "pendiente"
         },
         vouchersData: [
-          {
-            orden: 2,
-            id: 43,
-            codigo: "0948458968",
-            imagen: "https://test.teampixeland.com/API_ACADEMIA_MUNI/public/assets/images/vouchers/as2Kxo66kEP5ukFEYMzcgEjVKfOTRubG3Z41Ba4o.png",
-            fecha: "2020-11-16 04:55:07",
-            estado: "pending",
-          },
-          {
-            orden: 1,
-            id: 12,
-            codigo: 75155556,
-            imagen: "https://test.teampixeland.com/API_ACADEMIA_MUNI/public/assets/images/vouchers/3.jpg",
-            fecha: "2010-11-16",
-            estado: "pending"
-          },
-          {
-            orden: 2,
-            id: 43,
-            codigo: "0948458968",
-            imagen: "https://test.teampixeland.com/API_ACADEMIA_MUNI/public/assets/images/vouchers/2.jpg",
-            fecha: "2020-11-16 04:55:07",
-            estado: "pending",
-          }
+          
         ],
         //PAGINATIONS
         count: 0,        //cantifad
@@ -292,7 +269,6 @@
         })
         .finally( () => {
           this.componentLoading = false
-          console.log("get first group enrollments end")
         })
     },
     methods: {
@@ -320,7 +296,7 @@
          })
          .finally( () => {
             obj.getStateLoading = false
-            console.log("updateEnrollment end")
+            // console.log("updateEnrollment end")
          })
       },
       cerrarDetallesVouvher() {
@@ -403,7 +379,7 @@
             console.log(err)
           })
           .finally( () => {
-            console.log("get AllEnrollments end")
+            // console.log("get AllEnrollments end")
             this.componentLoading = false
           })
       },

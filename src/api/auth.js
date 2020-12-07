@@ -1,20 +1,13 @@
 import axios from 'axios';
 import store from '../store';
 
-// Client ID: 1
-// Client secret: AxuEYf3ltb7WG3GQOTqxIZtVjrUMUfNWFyle5XCe
-
-// Client ID: 2
-// Client secret: 3SfIaXZCoKdfWruHrgUrtWkZVeu3VJYxGRPu0ISt
-
-// Client ID: 3
-// Client secret: S2RM9zhj2x2IpZOkZLw7yl5rPUnN6DOHCquyRonh
-
+//test
+// const CLIENT_ID =  1
+// const CLIENT_PASSWORD =  "nE3eZEBhDoyhsLin6om8zYSBxlOscLpj1eVfCfq4"
+// local
 const CLIENT_ID =  1
-const CLIENT_PASSWORD =  "nE3eZEBhDoyhsLin6om8zYSBxlOscLpj1eVfCfq4"
+const CLIENT_PASSWORD =  "SHqd36FPiylTPYKuaALE2hrE759vzPh4cb42794H"
 
-// const API_URL = `http://127.0.0.1:8000/api/oauth/token`
-// const API_URL = `https://aula-virtual-eltambo.teampixeland.com/public/api/oauth/token`
 const API_URL = `${store.state.apiRest.url}/oauth/token`
 //TOKEN AL INicializar el APP
 function getInitialToken() {
@@ -32,8 +25,12 @@ function getInitialToken() {
 //function getStudentToken(pCorreo,pContrasenia) {
 function getStudentToken(pCorreo,pContrasenia) {
 
+  //test
+  // const CLIENT_IDS = 2
+  // const CLIENT_PASSWORDS =  "VJATzS3gBXD9VC6rhoD5WY2q5QomTQorl2CRhj7u" 
+  //local
   const CLIENT_IDS = 2
-  const CLIENT_PASSWORDS =  "VJATzS3gBXD9VC6rhoD5WY2q5QomTQorl2CRhj7u" 
+  const CLIENT_PASSWORDS =  "UVu6FlpgfNfrWZniJfP1OodiPIxv1fohksvUfIpM" 
 
   const CORREO = pCorreo;
   const CONTRASENIA = pContrasenia;

@@ -7,7 +7,7 @@
         <div class="container-fluid mt--7">
             <div class="row ">
                 <div class="col">
-                    <gestionmatriculas-table type="Dark"  title="Listado de matriculas" />
+                    <ciclos-table type="Dark"  title="Listado de Ciclos" />
                 </div>
             </div>
         </div>
@@ -15,11 +15,11 @@
     </div>
 </template>
 <script>
-  import GestionmatriculasTable from '@/views/Tables/GestionmatriculasTable'
+  import CiclosTable from '@/views/Tables/CiclosTable'
   export default {
-    name: 'misMatriculas',
+    name: 'Ciclos',
     components: { 
-        GestionmatriculasTable
+        CiclosTable
     }
   };
 </script>
