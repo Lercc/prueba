@@ -18,13 +18,13 @@
                     <div class="media align-items-center" slot="title">
                       <div class="media-body ml-2 d-none d-lg-block">
                         <span class="mb-0 text-sm  font-weight-bold">{{estudiante.estudiante.nombre}}</span>
-                      </div>
+                      </div>  
                       <span class="avatar avatar-sm rounded-circle">
                         <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
                       </span>
                     </div>
                     <template>
-                        <router-link to="/adminProfile" class="dropdown-item">
+                        <router-link to="/profile" class="dropdown-item">
                             <i class="ni ni-single-02"></i>
                             <span>Mi Perfil</span>
                         </router-link>

@@ -34,7 +34,6 @@ export default {
         console.log(error)
       })
       .finally( () => {
-        console.log("get token inicial end")
         this.componentLoading = false
       })
   },

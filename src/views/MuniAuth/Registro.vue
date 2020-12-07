@@ -153,6 +153,41 @@
                       :key="`nombApoError-${index}`">{{ nombApoError }}</span>
 
                 </b-form-group>
+                <!-- Grupo 5( CELULAR) -->
+                <b-form-group 
+                  label="5. Número de celular del apoderado"
+                  >
+                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-input
+                    v-show="!getApoderadoLoading"
+                    type = "text"
+                    placeholder = "Ingrese su número"
+                    v-model = "$v.apoderado.celular.$model"
+                    @keyup = "verificarDatosApoderado"
+                    @keypress="isNumber($event)"
+                    @blur = "$v.apoderado.nombres.$touch"
+                    :state = "$v.apoderado.celular.$dirty ? !$v.apoderado.celular.$invalid : null"
+                    :disabled = "inputApoderadoDisable"
+                    maxlength = "9"
+                    >
+                    </b-form-input>
+                    
+                    <b-form-invalid-feedback>
+                      <span v-show = "!$v.estudiante.celular.required"> * el campo celular es requerido</span>
+                      <span v-show = "!$v.estudiante.celular.numeric"> * el campo requiere un valor numérico</span>
+                      <span v-show = "!$v.estudiante.celular.maxLength"> * el campo celular requeriere máximo 9 dígitos</span>
+                      <span v-show = "!$v.estudiante.celular.minLength"> * el campo celular es requerido</span>
+                    </b-form-invalid-feedback>
+
+                    <span 
+                      class="input--error" 
+                      v-for="(celEstuError, index) in mostrarErroresInput('celular')" 
+                      :key="`celEstuError-${index}`">{{ celEstuError }}</span>
+
+                </b-form-group>
                 <b-form-group
                   label-align	="center"
                   style="text-align:center;"
@@ -185,7 +220,7 @@
                   <b-form-input
                     type = "text"
                     placeholder = "Ingrese su numero de dni"
-                    @change = "bucarEstudiante"
+                    @change = "buscarEstudiante"
                     @keyup = "verificarDatosEstudiante"
                     @keypress="isNumber($event)"
                     @blur = "$v.estudiante.dni.$touch"
@@ -395,7 +430,7 @@
                     :disabled = "inputEstudianteDisable"
                     >
                     <template #first>
-                      <b-form-select-option value="" disabled>-- Seleccione la provincia de residencia--</b-form-select-option>
+                      <b-form-select-option value="" disabled>-- Seleccione el departamento de residencia--</b-form-select-option>
                     </template>
 
                   </b-form-select>
@@ -444,9 +479,9 @@
                     :key="`distEstuError-${index}`">{{ distEstuError }}</span>
 
                 </b-form-group>
-                <!-- Grupo 8 ( DISTRITO ) -->
+                <!-- Grupo 9 ( DISTRITO ) -->
                 <b-form-group 
-                  label="8. Distrito de residencia del estudiante:"
+                  label="9. Distrito de residencia del estudiante:"
                   >
                    <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -478,10 +513,39 @@
                     :key="`distEstuError-${index}`">{{ distEstuError }}</span>
 
                 </b-form-group>
-
-                <!-- Grupo 9 ( AÑO DE CULMINACION DE SEC ) -->
+                <!-- Grupo 10 ( DIRECCIÓN) -->
                 <b-form-group 
-                  label="9. Seleccione el año en el que terminó la secundaria:"
+                  label="10. Dirección del estudiante"
+                  >
+                  <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-input
+                    v-show="!getEstudianteLoading"
+                    type = "text"
+                    @keyup = "verificarDatosEstudiante"
+                    @blur = "$v.estudiante.direccion.$touch"
+                    placeholder = "Ingrese la dirección del estudiante"
+                    v-model = "$v.estudiante.direccion.$model"
+                    :state = "$v.estudiante.direccion.$dirty ? !$v.estudiante.direccion.$invalid : null"
+                    :disabled = "inputEstudianteDisable"
+                    >
+                    </b-form-input>
+
+                    <b-form-invalid-feedback>
+                      <span v-show = "!$v.estudiante.direccion.required"> * el campo es requerido</span>
+                    </b-form-invalid-feedback>
+
+                    <span 
+                      class="input--error" 
+                      v-for="(direccionEstuError, index) in mostrarErroresInput('direccion')" 
+                      :key="`direccionEstuError-${index}`">{{ direccionEstuError }}</span>
+
+                </b-form-group>
+                <!-- Grupo 11 ( AÑO DE CULMINACION DE SEC ) -->
+                <b-form-group 
+                  label="11. Seleccione el año en el que terminó la secundaria:"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -510,9 +574,9 @@
 
                 </b-form-group>
 
-                <!-- Grupo 10 ( CORREO) -->
+                <!-- Grupo 12 ( CORREO) -->
                 <b-form-group 
-                  label="10. Correo"
+                  label="12. Correo"
                   >
                     <div class = "pb-1  loader-content" v-show="getEstudianteLoading || getCorreoEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading || getCorreoEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -543,9 +607,9 @@
 
                 </b-form-group>
 
-                <!-- Grupo 11 ( CONTRASEÑA ) -->
+                <!-- Grupo 13 ( CONTRASEÑA ) -->
                 <b-form-group 
-                  label="11. Contraseña"
+                  label="13. Contraseña"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -574,9 +638,9 @@
 
                 </b-form-group>
 
-                <!-- Grupo 12 ( CONFIRMACION DE CONTRASEÑA) -->
+                <!-- Grupo 14 ( CONFIRMACION DE CONTRASEÑA) -->
                 <b-form-group 
-                  label="12. Confirmacion de contrasña"
+                  label="14. Confirmacion de contrasña"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -608,7 +672,7 @@
 
                 <!-- Grupo 10* ( APODERADO) -->
                 <b-form-group v-show="!mayorDeEdad"
-                  label="13. Nombres del apoderado"
+                  label="15. Nombres del apoderado"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -626,7 +690,7 @@
 
                 <!-- Grupo 11* ( PARENTECO ) -->
                 <b-form-group  v-show="!mayorDeEdad"
-                  label="14. Seleccione un parentesco con respecto al apoderado:"
+                  label="16. Seleccione un parentesco con respecto al apoderado:"
                   >
                   <div class = "pb-1  loader-content" v-show="getEstudianteLoading" >
                     <pulse-loader class="mt-2 ml-3"  :loading="getEstudianteLoading" :size = "15" :color="'#4FA898'"/>
@@ -653,14 +717,19 @@
                   </b-form-invalid-feedback>
 
                 </b-form-group>
-                
-                <b-button variant="primary" v-show="!mayorDeEdad" @click="cambiarFormulario" >ATRÁS</b-button>
-                <b-button variant="danger" v-show="btnCambiarEstudiante"  @click="cambiarEstudiante" >CAMBIAR ESTUDIANTE</b-button>
-                <b-button variant="success" 
+                <b-form-group
+                  label-align	="center"
+                  style="text-align:center;"
+                >
+                  <b-button variant="primary" v-show="!mayorDeEdad" @click="cambiarFormulario" >ATRÁS</b-button>
+                  <b-button variant="danger" v-show="btnCambiarEstudiante"  @click="cambiarEstudiante" >CAMBIAR ESTUDIANTE</b-button>
+                  <b-button variant="success" 
                   :disabled="btnRegistrarEstudianteDisabled"
                   v-show="mostrarBtnRegistrarEstudiante"
                   @click="crearEstudiante" >REGISTRAR ESTUDIANTE</b-button>
-                <p class="text-success" v-show="btnRegistrarEstudianteDisabled" >Rellenar todos los campos para enviar.</p>
+                  <p class="text-success" v-show="btnRegistrarEstudianteDisabled" >Rellenar todos los campos para enviar.</p>
+                </b-form-group>
+               
 
               </b-form>
               
@@ -720,6 +789,7 @@ export default {
         apMater: '',
         nombres:'',
         id:'',
+        celular:'',
       },
 
       //estudiante
@@ -736,6 +806,7 @@ export default {
         provincia_id:'',
         distrito: '',
         distrito_id:'',
+        direccion:'',
         relacionConApoderado: '',
         anioCulminacion: 2020,
         apoderadoId: '',
@@ -772,7 +843,14 @@ export default {
       nombres: {
         required,
         letrasValidas
-      }
+      },
+      celular: {
+        required,
+        numeric,
+        maxLength: maxLength(9),
+        minLength: minLength(9)
+      },
+      
     },
 
     //VALIDACIONES DEL ESTUDIANTE
@@ -822,6 +900,9 @@ export default {
       distrito_id: {
         required
       },
+      direccion:{
+        required
+      },
       relacionConApoderado: {
         required
       },
@@ -846,14 +927,6 @@ export default {
     validationFechaNac(){
       return !(this.anioNac >2010 || this.anioNac < 1970)
     },
-    //eliminar
-    verificarSeleccionProvincia() {
-      let prov = this.estudiante.provincia
-      this.$v.estudiante.distrito.$touch
-      // eslint-disable-next-line
-      this.estudiante.distrito = '';
-      return this.provincias[prov]
-    }
   },
 
   watch: {
@@ -861,18 +934,7 @@ export default {
 
       //yyyy-mm-dd
       this.anioNac = parseInt(this.edad.substr(0,4))
-      if ( this.anioNac > 1940 && 2020 - this.anioNac >= 18) {
-        this.mayorDeEdad = true
-        this.mostrarFormularioUno = false
-        this.mostrarFormularioDos = true
-        //
-        this.limpiarInputsEstudiante()
-        this.limpiarInputsApoderado()
-        this.estudiante.apoderadoId = 1
-        this.estudiante.relacionConApoderado = 'independiente'
-
-
-      } else if(this.anioNac > 1940 && this.anioNac < 2011 && 2020 - this.anioNac <= 18) {
+      if ( this.anioNac > 1940 && this.anioNac < 2011) {
         this.mayorDeEdad = false
         this.mostrarFormularioUno = true
         this.mostrarFormularioDos = false
@@ -881,6 +943,7 @@ export default {
         this.limpiarInputsApoderado()
         this.estudiante.apoderadoId = ''
         this.estudiante.relacionConApoderado = ''
+
 
       } else {
         this.mayorDeEdad = false
@@ -928,8 +991,8 @@ export default {
         this.apoderado.nombres =  ''
         this.apoderado.apPater =  ''
         this.apoderado.apMater =  ''
-        this.apoderado.dni =  ''
-
+        this.apoderado.dni     =  ''
+        this.apoderado.celular =  ''
         this.inputApoderadoDisable = false
         this.btnCambiarApoderado = false
     },
@@ -943,6 +1006,7 @@ export default {
       this.apoderado.nombres = ''
       this.apoderado.apMater = ''
       this.apoderado.apPater = ''
+      this.apoderado.celular = ''
 
       this.inputApoderadoDisable = false
     },
@@ -973,7 +1037,8 @@ export default {
             this.apoderado.apPater = apoderado[0].apellidos.substr(0,indiceDeSeparacion)
             this.apoderado.apMater = apoderado[0].apellidos.substr(indiceDeSeparacion+1)
             this.apoderado.nombres = apoderado[0].nombre
-            this.apoderado.dni = apoderado[0].dni
+            // this.apoderado.dni     = apoderado[0].dni
+            this.apoderado.celular = 'Restringido'
             //
             this.estudiante.apoderadoId = apoderado[0].id
 
@@ -1005,6 +1070,8 @@ export default {
       apoderadoFormData.append('nombre', this.apoderado.nombres)
       apoderadoFormData.append('apellidos', `${this.apoderado.apPater} ${this.apoderado.apMater}`)
       apoderadoFormData.append('dni', this.apoderado.dni)
+      apoderadoFormData.append('celular', this.apoderado.celular)
+
 
       newUserForm.createApoderado(apoderadoFormData)
         .then( res => {
@@ -1017,7 +1084,8 @@ export default {
           this.apoderado.apPater = apoderado.apellidos.substr(0,indiceDeSeparacion)
           this.apoderado.apMater = apoderado.apellidos.substr(indiceDeSeparacion+1)
           this.apoderado.nombres = apoderado.nombre
-          this.apoderado.dni = apoderado.dni
+          this.apoderado.dni      = apoderado.dni
+          this.apoderado.celular = apoderado.celular
           //
           this.estudiante.apoderadoId = apoderado.id
 
@@ -1040,14 +1108,16 @@ export default {
      * ESTUDIANTE fn
      */
     limpiarInputsEstudiante() {
-        this.estudiante.nombres =  ''
-        this.estudiante.apPater =  ''
-        this.estudiante.apMater =  ''
-        this.estudiante.dni =  ''
-        this.estudiante.fechNac =  ''
-        this.estudiante.celular =  ''
-        this.estudiante.provincia =  ''
-        this.estudiante.distrito =  ''
+        this.estudiante.nombres   =  ''
+        this.estudiante.apPater   =  ''
+        this.estudiante.apMater   =  ''
+        this.estudiante.dni       =  ''
+        this.estudiante.fechNac   =  ''
+        this.estudiante.celular   =  ''
+        this.estudiante.departamento =  ''
+        this.estudiante.provincia   =  ''
+        this.estudiante.distrito    =  ''
+        this.estudiante.direccion   =  ''
         this.estudiante.relacionConApoderado =  ''
         this.estudiante.anioCulminacion =  2020
         this.estudiante.apoderadoId =  ''
@@ -1080,7 +1150,7 @@ export default {
       //obtener el text del departamento escogido
       const id = this.estudiante.departamento_id;
       this.estudiante.departamento = this.departamentos.filter(dep => dep.value === id)[0].text;
-      
+
       //resetear distrito
       this.estudiante.provincia_id=null
       this.estudiante.distrito_id=null
@@ -1132,21 +1202,7 @@ export default {
       this.mostrarBtnRegistrarEstudiante = true
       this.btnRegistrarEstudianteDisabled = true
 
-      this.estudiante.nombres =  ''
-      this.estudiante.apPater =  ''
-      this.estudiante.apMater =  ''
-      this.estudiante.dni =  ''
-      this.estudiante.celular =  ''
-      this.estudiante.provincia =  ''
-      this.estudiante.distrito =  ''
-      this.estudiante.relacionConApoderado =  ''
-      this.estudiante.anioCulminacion =  2020
-      this.estudiante.correo =  ''
-
-      if(this.mayorDeEdad) {
-        this.estudiante.apoderado_id = 1
-        this.estudiante.relacionConApoderado = 'independiente'
-      }
+      this.limpiarInputsEstudiante()
 
       this.inputEstudianteDisable = false
     },
@@ -1164,48 +1220,30 @@ export default {
           console.log(error.response.status)
         })
         .finally( () => {
-          console.log("getEmailEstudianteEnd")
           this.getCorreoEstudianteLoading = false
         })
     },
 
-    bucarEstudiante() {
+    buscarEstudiante() {
       if( this.estudiante.dni.length === 8 ) {
         this.getEstudianteLoading = true
-
         newUserForm.getEstudiante(this.estudiante.dni)
         .then( res => {
           let estudiante = res.data.data
-
+          this.FormFechaNacDisable = true
           if( estudiante.length !== 0 ){
-            this.inputEstudianteDisable = true
-
-            let indiceDeSeparacion = estudiante[0].apellidos.indexOf(' ')
-
-            this.estudiante.nombres = estudiante[0].nombre
-            this.estudiante.apPater = estudiante[0].apellidos.substr(0,indiceDeSeparacion)
-            this.estudiante.apMater = estudiante[0].apellidos.substr(indiceDeSeparacion+1)
-            this.estudiante.dni = estudiante[0].dni
-            this.estudiante.correo = estudiante[0].correo
-        
-            this.estudianteYaExiste = true
-            this.btnCambiarEstudiante = true
-            this.mostrarBtnRegistrarEstudiante = false
-            this.FormFechaNacDisable = true
-            
+            this.estudiante.dni=''
             //swal
-            swal("El estudiante con el DNI ingresado ya existe", "En caso de querer cambiar de estudiante, dar click en el botón de CAMBIAR ESTUDIANTE", "info")
-            //
-          } else {
-            this.estudianteYaExiste = false
-            this.mostrarBtnRegistrarEstudiante = true
-          }
+            swal("El estudiante con el DNI ingresado ya ha sido registrado anteriormente", 
+            "En caso de no recordar su contraseña, envié un correo a academia.el.tambo@gmail.com", "warning")
+          } 
+          this.mostrarBtnRegistrarEstudiante = true
+          this.estudianteYaExiste = false
         })
         .catch( e => {
           console.log(e.response.status)
         })
         .finally( () => {
-          console.log('getEstudiante end')
           this.getEstudianteLoading = false
         })
       }
@@ -1224,8 +1262,10 @@ export default {
       estudianteFormData.append('dni', this.estudiante.dni)
       estudianteFormData.append('fecha_nacimiento', this.estudiante.fechNac)
       estudianteFormData.append('celular', this.estudiante.celular)
+      estudianteFormData.append('departamento', this.estudiante.departamento)
       estudianteFormData.append('provincia', this.estudiante.provincia)
       estudianteFormData.append('distrito', this.estudiante.distrito)
+      estudianteFormData.append('direccion', this.estudiante.direccion)
       estudianteFormData.append('relacion', this.estudiante.relacionConApoderado)
       estudianteFormData.append('anio_culminacion', this.estudiante.anioCulminacion)
       estudianteFormData.append('correo', this.estudiante.correo)
@@ -1258,23 +1298,14 @@ export default {
 
           
           //swal
-            swal("Registro del estudiante válido", {
+            swal("El usuario fue registrado", {
               icon : 'success',
+              timer: 2000,
               buttons : {
                 login : "Ir a login",
-                ok : 'OK'
               }
             })
-            .then ( res => {
-              if(res === 'login') {
-                this.$router.push({ name: "login"});
-              }
-            })
-            .finally( () => {
-              console.log("end swal")
-            })
-            //
-
+            .then ( this.$router.push({ name: "login"}))
         })
         .catch( error => {
           this.erroresInputs = error.response.data.error

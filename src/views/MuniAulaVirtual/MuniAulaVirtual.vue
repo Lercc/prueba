@@ -68,9 +68,6 @@
           .catch( err => {
             console.error(err);
           })
-          .finally( () => {
-            console.log("Get ALL end")
-          }) 
     },
     methods: {
       ...mapMutations('ciclos',["setCiclos"]),

@@ -10,6 +10,8 @@
         <sidebar-item :link="{name: 'Perfil', icon: 'ni ni-single-02 text-yellow', path: '/adminProfile'}"/>
         <!-- <sidebar-item :link="{name: 'no admin Matricula', icon: 'ni ni-single-02 text-yellow', path: '/matricula'}"/> -->
         <sidebar-item :link="{name: 'Gestionar Matrículas', icon: 'ni ni-bullet-list-67 text-green', path: '/gestionarMatriculas'}"/>
+        <sidebar-item :link="{name: 'Ciclos', icon: 'ni ni-books text-green', path: '/ciclos'}"/>
+
       </template>
     </side-bar>
 

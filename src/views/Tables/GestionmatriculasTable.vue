@@ -238,7 +238,7 @@
         //
         enrollmentData: {
           num : 1098,
-          ciclo: 3,
+          ciclo: 1,
           area: 35,
           carrera: 35,
           estudiante: 630,
@@ -271,7 +271,6 @@
         })
         .finally( () => {
           this.componentLoading = false
-          console.log("get first group enrollments end")
         })
     },
     methods: {
@@ -299,7 +298,7 @@
          })
          .finally( () => {
             obj.getStateLoading = false
-            console.log("updateEnrollment end")
+            // console.log("updateEnrollment end")
          })
       },
       cerrarDetallesVoucher() {
@@ -385,7 +384,7 @@
             console.log(err)
           })
           .finally( () => {
-            console.log("get AllEnrollments end")
+            // console.log("get AllEnrollments end")
             this.componentLoading = false
           })
       },
