@@ -62,11 +62,16 @@
         <div class="container-fluid mt--7">
             <div class="row ">
                 <div class="col">
-                    <gestionmatriculas-table type="Dark"  title="Listado de matriculas" />
+                    <gestionmatriculas-table 
+                        type="Dark" 
+                        title="Listado de matriculas" 
+                        @voucher-event="toggleBgPopUp"/>
                 </div>
             </div>
         </div>
-
+        <!-- VOUCHER POP-UP -->
+        <div class="bg-voucher-pop-up" v-show="showBgPopUp">
+        </div>
     </div>
 </template>
 <script>
@@ -75,7 +80,27 @@
     name: 'misMatriculas',
     components: { 
         GestionmatriculasTable
+    },
+    data() {
+        return {
+            showBgPopUp : false
+        }
+    },
+    methods:{
+        toggleBgPopUp(pMostrar) {
+            this.showBgPopUp = pMostrar
+        }
     }
   };
 </script>
-<style></style>
+<style scoped>
+.bg-voucher-pop-up {
+    position: absolute;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100% ;
+    background-color: rgba(0,0,0,.45);
+    
+}
+</style>
