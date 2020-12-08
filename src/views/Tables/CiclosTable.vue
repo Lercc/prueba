@@ -96,7 +96,7 @@
 
               <template>
                 <p class="dropdown-item" @click="showEditFormPopUp(row.id)">Editar</p>
-                <p class="dropdown-item" @click="deleyeCycleData(row.id)">Eliminar</p>
+                <p class="dropdown-item" @click="deleteCycleData(row.id)">Eliminar</p>
               </template>
             </base-dropdown>
           </td>
@@ -597,7 +597,6 @@
           'fin': this.cyclePopUpData.fin
         }
   
-
         ciclo.updateCiclo(cycleObjectData,this.cyclePopUpData.id)
           .then(( {data} ) => {
             [this.cyclePopUpData] = [data.data]
@@ -624,6 +623,33 @@
             console.log('end create ciclo')
             this.cyclePopUpDataLoading = false
           })
+      },
+      deleteCycleData(cycleId) {
+        swal({
+          title: "¿Estás seguro de eliminar este ciclo?",
+          text: "Eliminar el ciclo es un accion irreversible",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((okBorrar) => {
+          if (okBorrar) {
+            ciclo.deleteCiclo(cycleId)
+              .then( ( {data} ) => {
+                this.tableData.forEach((el,i) => {
+                  if(el.id === data.id) {
+                    this.tableData.splice(i,1)
+                  }
+                });
+                swal("El ciclo ha sido eliminado!", {
+                  icon: "success",
+                })
+              })
+              .catch( err => {
+                console.log('err',err)
+              })
+          }
+        });
       }
     }
   }

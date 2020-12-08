@@ -24,7 +24,7 @@ function createCiclo(pFormData) {
     return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
 }
 
-// ACTUALIZAR CICLOS
+// ACTUALIZAR CICLO
 // REQUEST `ciclos`
 function updateCiclo(pObjectData,pCycleId) {
     const REQUEST = `cycles/${pCycleId}`
@@ -36,5 +36,13 @@ function updateCiclo(pObjectData,pCycleId) {
     return axios.put(`${API_URL}/${REQUEST}`, data, { headers })
 }
 
+// ELIMNINAR CICLO
+// REQUEST `ciclos`
+function deleteCiclo(pCycleId) {
+    const REQUEST = `cycles/${pCycleId}`
+    const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
+    return axios.delete(`${API_URL}/${REQUEST}`, { headers })
+}
+
 //Exportamos la funcion para poder usarla más tarde
-export { getCiclos, createCiclo, updateCiclo }
+export { getCiclos, createCiclo, updateCiclo, deleteCiclo }
