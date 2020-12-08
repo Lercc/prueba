@@ -15,5 +15,13 @@ function getCiclos(pPage=1) {
     return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
 
+// CREAR CICLOS
+// REQUEST `ciclos`
+function createCiclo(pFormData) {
+    const REQUEST = `cycles`
+    const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
+    return axios.post(`${API_URL}/${REQUEST}`, pFormData, { headers })
+}
+
 //Exportamos la funcion para poder usarla más tarde
-export { getCiclos}
+export { getCiclos, createCiclo }

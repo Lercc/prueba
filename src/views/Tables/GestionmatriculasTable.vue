@@ -45,7 +45,7 @@
             {{row.num}}
           </th>
 
-          <td class="budget">
+          <td>
             {{ row.ciclo | ciclo }}
           </td>
 
@@ -231,7 +231,7 @@
         nombreLoader: false,
         getStateLoading: false,
         //
-        showVouchers: true,
+        showVouchers: false,
         //
         tableData: [],
         studentsData: [],
@@ -265,7 +265,7 @@
           this.currentPage = response.data.meta.pagination.current_page
           this.total = response.data.meta.pagination.total
           this.count = response.data.meta.pagination.count
-      })
+        })
         .catch( err => {
           console.log(err)
         })
@@ -437,7 +437,6 @@
  top:0;
  z-index: 200;
  width: 100%;
- height: 100%;
 }
 .voucher-shadow {
  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .10);

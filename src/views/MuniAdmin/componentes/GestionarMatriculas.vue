@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <!-- VOUCHER POP-UP -->
+        <!-- BG VOUCHER POP-UP -->
         <div class="bg-voucher-pop-up" v-show="showBgPopUp">
         </div>
     </div>
