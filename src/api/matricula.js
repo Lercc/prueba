@@ -31,9 +31,9 @@ function getAllEnrollments(pPage) {
 }
 // ACTUALIZAR MATRICULA
 // REQUEST `students/*/cycles/*/enrollments`
-function updateEnrollment(pIdEstudiante, pIdCiclo, pIdMatricula, pDAta) {
+function updateEnrollment(pIdEstudiante, pIdCiclo, pIdMatricula, pData) {
   const REQUEST = `students/${pIdEstudiante}/cycles/${pIdCiclo}/enrollments/${pIdMatricula}`
-  const data = qs.stringify(pDAta)
+  const data = qs.stringify(pData)
   const headers = { 
     'content-type': 'application/x-www-form-urlencoded',
     Authorization : `Bearer ${store.state.usuario.token}`
