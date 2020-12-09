@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow"
+  <div class="card muni-box-shadow"
        :class="type === 'dark' ? 'bg-default': ''">
     <div class="card-header border-0"
          :class="type === 'dark' ? 'bg-transparent': ''">
@@ -22,8 +22,8 @@
     <!-- END LOADER -->
 
     <div class="table-responsive" v-show="!componentLoading" >
+      <!-- ENROLLMENTS TABLE -->
       <base-table 
-                  v-show = "!showVouchers"
                   class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
@@ -45,7 +45,7 @@
             {{row.num}}
           </th>
 
-          <td class="budget">
+          <td>
             {{ row.ciclo | ciclo }}
           </td>
 
@@ -120,16 +120,17 @@
 
         </template>
       </base-table>
+
       <!-- VOUCHERS DATA -->
-      <div 
+      <div  
         v-show = "showVouchers"
-        class="bg-secondary">
+        class="card bg-secondary voucher">
         <!-- VOUCHER HEADER -->
         <div class="d-flex justify-content-center " >
-          <div class="d-flex display-row justify-content-between my-2" style="width:95%">
+          <div class="d-flex display-row justify-content-between my-4" style="width:95%">
             <h3>Voucher(s)</h3>
               <b-button 
-                @click="cerrarDetallesVouvher"
+                @click="cerrarDetallesVoucher"
                 variant="outline-primary" 
                 size="sm"
               >Volver</b-button>
@@ -141,6 +142,7 @@
             bg-variant="" 
             :title="`Matrícula n° ${enrollmentData.num}`" 
             style="width:95%;"
+            class="voucher-shadow"
             >
             <b-card-text class="d-flex justify-content-between">
               <div>
@@ -174,13 +176,14 @@
         </div>
         <!-- VOUCHER CARD LIST -->
         <div class="d-flex justify-content-center mb-4" 
-             v-for="(voucher, index) in vouchersData" :key="`vou-${index}`" >
-          <b-card no-body class="overflow-hidden voucher-shadow" style="max-width: 95%;" >
+              v-for="(voucher, index) in vouchersData" :key="`vou-${index}`" 
+              style="oveflow:auto">
+          <b-card no-body class="overflow-hidden voucher-shadow" style="max-width: 95%" >
             <b-row no-gutters>
-              <b-col md="6">
-                <b-card-img :src="voucher.imagen" class="rounded-0" ></b-card-img>
+              <b-col md="4">
+                <b-card-img :src="voucher.imagen" class="rounded-0" style="max-height: 350px"></b-card-img>
               </b-col>
-              <b-col md="6">
+              <b-col md="4">
                 <b-card-body :title="`COD: ${voucher.codigo}`">
                   <b-card-text>
                     <p>Fecha: {{ voucher.fecha }}</p>
@@ -194,18 +197,19 @@
       </div>
       <!-- END VOUCHERS DATA -->
     </div>
-
+    
+    <!-- Footer -->
     <div class="card-footer d-flex justify-content-end"
         :class="type === 'dark' ? 'bg-transparent': ''"
         >
       <base-pagination 
-        v-show="!showVouchers"
         :pageCount="totalPage" 
         :perPage="perPage"
         :value="currentPage"
         @input="obtenerTodasMatriculas"
       ></base-pagination>
     </div>
+
   </div>
 </template>
 <script>
@@ -242,9 +246,7 @@
           statusType: "pendiente",
           estado: "pendiente"
         },
-        vouchersData: [
-          
-        ],
+        vouchersData: [],
         //PAGINATIONS
         count: 0,        //cantifad
         currentPage: 0,  //pagina actual
@@ -263,7 +265,7 @@
           this.currentPage = response.data.meta.pagination.current_page
           this.total = response.data.meta.pagination.total
           this.count = response.data.meta.pagination.count
-      })
+        })
         .catch( err => {
           console.log(err)
         })
@@ -299,13 +301,16 @@
             // console.log("updateEnrollment end")
          })
       },
-      cerrarDetallesVouvher() {
+      cerrarDetallesVoucher() {
         this.showVouchers = false
+        this.$emit("voucher-event", this.showVouchers)
         this.enrollmentData = {}
         this.vouchersData = []
       },
       mostrarDetallesVoucher(pIdMatricula) {
         this.showVouchers = true
+        this.$emit("voucher-event", this.showVouchers);
+
         this.tableData.forEach(e => {
           if (e.num == pIdMatricula) {
             this.enrollmentData = {...e}
@@ -394,7 +399,9 @@
   }
 </script>
 <style scoped>
-
+.muni-box-shadow {
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, .10);
+}
 /* spiner */
 .app-loader-content {
   height: 450px;
@@ -425,6 +432,12 @@
   transform: scale(1);
 }
 /* */
+.voucher {
+ position: absolute;
+ top:0;
+ z-index: 200;
+ width: 100%;
+}
 .voucher-shadow {
  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .10);
 }

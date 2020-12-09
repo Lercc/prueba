@@ -1,5 +1,5 @@
 <template>
-    <div class="card shadow"
+    <div class="card muni-box-shadow"
         :class="type === 'dark' ? 'bg-default': ''">
       <div class="card-header border-0"
               :class="type === 'dark' ? 'bg-transparent': ''">
@@ -8,6 +8,9 @@
                   <h3 class="mb-0" :class="type === 'dark' ? 'text-white': ''">
                       {{title}}
                   </h3>
+              </div>
+              <div class="col text-right">
+                <base-button type="primary" size="sm" @click="showCreateFormPopUp">Crear Ciclo</base-button>
               </div>
           </div>
       </div>
@@ -18,9 +21,9 @@
     </div>
     <!-- END LOADER -->
 
-    <div class="table-responsive" v-show="!componentLoading" >
-      <base-table 
-                  v-show = "!showAcciones"
+    <div class="table-responsive" v-show="!componentLoading" style="min-height:750px">
+      <!-- CICLOS DATA -->
+      <base-table
                   class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
@@ -30,9 +33,9 @@
           <th>N°</th>
           <th>Nombre</th>
           <th>Descripción</th>
-          <th>Cantidad</th>
           <th>Empieza</th>
           <th>Termina</th>
+          <th>Duración</th>
           <th>Estado</th>
           <th>Acciones</th>
 
@@ -43,7 +46,7 @@
             {{row.id}}
           </th>
 
-          <td class="budget">
+          <td >
             {{ row.nombre }}
           </td>
 
@@ -52,19 +55,7 @@
           </td>
 
           <td>
-            <div class="dato">
-            {{ row.cantidad }}
-              <span class="dato--detalle" >
-                {{ row.duracion }}
-              </span>
-            </div>
-          </td>
-
-          <td>
-            <div class="nombre-loader-content" v-show="nombreLoader">
-              <pulse-loader class="nombreLoader" :loading="nombreLoader" :size = "12"  :color="'#4FA898'"/>
-            </div>
-            <div class="dato" v-show="!nombreLoader">
+            <div >
               {{ row.inicio }}
             </div>
           </td>
@@ -74,10 +65,14 @@
           </td>
 
           <td>
-            <div class="nombre-loader-content" v-show="row.getStateLoading">
-              <pulse-loader class="nombreLoader" :loading="row.getStateLoading" :size = "12"  :color="'#4FA898'"/>
+            <div>
+            {{ row.cantidad }} {{ row.duracion }}
             </div>
-            <badge class="badge-dot mr-4" v-show="!row.getStateLoading">
+          </td>
+
+
+          <td>
+            <badge class="badge-dot mr-4">
               <i 
                 :class="{ 'bg-success' : row.estado == 'disponible',
                           'bg-purple' : row.estado == 'pendiente',
@@ -95,32 +90,286 @@
 
           <td class="text-right">
             <base-dropdown class="dropdown" position="right" >
-              <a slot="title" class="btn btn-sm btn-icon-only text-light" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a slot="title" class="btn btn-sm btn-icon-only text-light text-left" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
               </a>
 
               <template>
-                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'pendiente')">Pendiente</p>
-                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'aprobado')">Aprobado</p>
-                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'desaprobado')">Desaprobado</p>
-                <p class="dropdown-item" @click="cambiarEstadoMatricula(row,'terminado')">Terminado</p>
+                <p class="dropdown-item" @click="showEditFormPopUp(row.id)">Editar</p>
+                <p class="dropdown-item" @click="deleteCycleData(row.id)">Eliminar</p>
               </template>
             </base-dropdown>
           </td>
 
         </template>
+
       </base-table>
 
+      <!-- CICLOS POP UP -->
+      <div  class="card bg-secondary ciclos" v-show="formCicloPopUp">
+        <!-- CICLOS POP UP HEADER -->
+        <div class="d-flex justify-content-center " >
+          <div class="d-flex display-row justify-content-between my-4" style="width:95%">
+              <h3 v-show="showCreateForm">Crear nuevo Ciclo</h3>
+              <h3 v-show="showEditForm">Editar Ciclo</h3>
+              <b-button 
+                @click="closeCycleFormPopUp"
+                variant="outline-primary" 
+                size="sm">Volver
+              </b-button>
+          </div>
+        </div>
+        <!-- CICLOS POP UP FORM -->
+        <div class="d-flex justify-content-center mb-4">
+          <b-card 
+            bg-variant="" 
+            title="Datos del Ciclo" 
+            style="width:95%;"
+            class="ciclos-shadow"
+            >
+
+            <b-card-text class="d-flex justify-content-center my-2">
+              <b-form  class="col-md-12 col-lg-10 col-lx-9">
+                <!-- Grupo 1( CYCLE NAME) -->
+                <b-form-group
+                  label="1. Nombre del ciclo:"
+                >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-input
+                    v-show="!cyclePopUpDataLoading"
+                    type = "text"
+                    placeholder = "Ingrese el nombre del ciclo"
+                    v-model = "$v.cyclePopUpData.nombre.$model"
+                    :state = "$v.cyclePopUpData.nombre.$dirty ? !$v.cyclePopUpData.nombre.$invalid : null"
+                    @keyup = "verifyCycleFormData"
+                    @blur = "touchAllValidations"
+                    @keypress="isLetter"
+                  ></b-form-input>
+
+                  <b-form-invalid-feedback>
+                    <span v-show = "!$v.cyclePopUpData.nombre.required"> * el campo nombre es requerido</span>
+                    <span v-show = "!$v.cyclePopUpData.nombre.letrasValidas"> * el campo requiere valores alfabéticos</span>
+                  </b-form-invalid-feedback>
+
+                  <!-- <span 
+                    class="input--error" 
+                    v-for="(dniEstError, index) in mostrarErroresInput('dni')" 
+                    :key="`dniEstError-${index}`">{{ dniEstError }}
+                    </span> -->
+                </b-form-group>
+
+                <!-- Grupo 2 ( CYCLE DESCRIPTION) -->
+                <b-form-group 
+                  label="2. Descripción del ciclo:"
+                >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-input
+                    v-show="!cyclePopUpDataLoading"
+                    type = "text"
+                    placeholder = "Ingrese una descripción:"
+                    v-model = "$v.cyclePopUpData.descripcion.$model"
+                    :state = "$v.cyclePopUpData.descripcion.$dirty ? !$v.cyclePopUpData.descripcion.$invalid : null"
+                    @keyup = "verifyCycleFormData"
+                    @blur = "touchAllValidations"
+                    @keypress="isLetter"
+                    >
+                  </b-form-input>
+
+                  <b-form-invalid-feedback>
+                      <span v-show = "!$v.cyclePopUpData.descripcion.required"> * el campo es requerido</span>
+                      <span v-show = "!$v.cyclePopUpData.descripcion.letrasValidas"> * el campo requiere solo letras validas</span>
+                  </b-form-invalid-feedback>
+
+                  <!-- <span 
+                    class="input--error" 
+                    v-for="(apellEstuError, index) in mostrarErroresInput('apellidos')" 
+                    :key="`apPaterEstuError-${index}`">{{ apellEstuError }}
+                  </span> -->
+
+                </b-form-group>
+
+                <!-- Grupo 3 ( CYCLE STATE ) -->
+                <b-form-group 
+                  label="3. Estado del ciclo:"
+                  >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-select
+                    v-show="!cyclePopUpDataLoading" 
+                    v-model = "$v.cyclePopUpData.estado.$model"
+                    :options = "cicleState"
+                    :state = "$v.cyclePopUpData.estado.$dirty ? !$v.cyclePopUpData.estado.$invalid : null"
+                    @change = "verifyCycleFormData"
+                    >
+                    <template #first>
+                      <b-form-select-option value="" disabled>-- Seleccione un estado --</b-form-select-option>
+                    </template>
+
+                  </b-form-select>
+
+                  <b-form-invalid-feedback>
+                    <span v-show = "!$v.cyclePopUpData.estado.required"> * el campo es requerido</span>
+                  </b-form-invalid-feedback>
+
+                  <!-- <span 
+                    class="input--error" 
+                    v-for="(provEstuError, index) in mostrarErroresInput('provincia')" 
+                    :key="`provEstuError-${index}`">{{ provEstuError }}
+                  </span> -->
+
+                </b-form-group>
+
+                <!-- Grupo 4 ( START DATE) -->
+                <b-form-group 
+                  label="4. Fecha de inicio del ciclo:"
+                  >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-input
+                    v-show="!cyclePopUpDataLoading"
+                    type = "date"
+                    min="2020-12-10" 
+                    max="2030-12-31"
+                    placeholder = "Ingresa la fecha de inicio"
+                    v-model = "$v.cyclePopUpData.inicio.$model"
+                    :state = "$v.cyclePopUpData.inicio.$dirty ? !$v.cyclePopUpData.inicio.$invalid : null"
+                    @blur = "touchAllValidations"
+                    @change="calculateDays"
+                    >
+                    </b-form-input>
+
+                    <b-form-invalid-feedback>
+                      <span v-show = "!$v.cyclePopUpData.inicio.required"> * el campo es requerido</span>
+                    </b-form-invalid-feedback>
+
+                    <!-- <span 
+                      class="input--error" 
+                      v-for="(nacimEstuError, index) in mostrarErroresInput('fecha_nacimiento')" 
+                      :key="`nacimEstuError-${index}`">{{ nacimEstuError }}
+                    </span> -->
+
+                </b-form-group>
+
+                <!-- Grupo 5 ( FINISH DATE) -->
+                <b-form-group 
+                  label="5. Fecha de finalización del ciclo:"
+                  >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-input
+                    v-show="!cyclePopUpDataLoading"
+                    type = "date"
+                    min="2020-12-10"
+                    max="2030-12-31"
+                    placeholder = "Ingresa la fecha de inicio"
+                    v-model = "$v.cyclePopUpData.fin.$model"
+                    :state = "$v.cyclePopUpData.fin.$dirty ? !$v.cyclePopUpData.fin.$invalid : null"
+                    @blur = "touchAllValidations"
+                    @change="calculateDays"
+                    >
+                    </b-form-input>
+
+                    <b-form-invalid-feedback>
+                      <span v-show = "!$v.cyclePopUpData.fin.required"> * el campo es requerido</span>
+                    </b-form-invalid-feedback>
+
+                    <!-- <span 
+                      class="input--error" 
+                      v-for="(nacimEstuError, index) in mostrarErroresInput('fecha_nacimiento')" 
+                      :key="`nacimEstuError-${index}`">{{ nacimEstuError }}
+                    </span> -->
+
+                </b-form-group>
+
+                <!-- Grupo 6 ( DURACION) -->
+                <b-form-group 
+                  label="6. Duración:"
+                  >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <div class="d-flex flex-row flex-wrap">
+                    <b-form-input
+                      v-show="!cyclePopUpDataLoading"
+                      class="col-6 text-center"
+                      type = "number"
+                      placeholder = "duración"
+                      v-model = "$v.cyclePopUpData.cantidad.$model"
+                      :state = "$v.cyclePopUpData.cantidad.$dirty ? !$v.cyclePopUpData.cantidad.$invalid : null"
+                      @change = "verifyCycleFormData"
+                      disabled
+                      >
+                    </b-form-input>
+                    <b-form-input
+                      v-show="!cyclePopUpDataLoading"
+                      class="col-6 text-center"
+                      type="text"
+                      placeholder = "duración"
+                      v-model = "$v.cyclePopUpData.duracion.$model"
+                      :state = "$v.cyclePopUpData.duracion.$dirty ? !$v.cyclePopUpData.duracion.$invalid : null"
+                      disabled
+                      >
+                    </b-form-input>
+                  
+                    <b-form-invalid-feedback class="">
+                      <span v-show = "!$v.cyclePopUpData.cantidad.required"> * el campo es requerido</span>
+                    </b-form-invalid-feedback>
+                  </div>
+
+
+                  <!-- <span 
+                    class="input--error" 
+                    v-for="(nacimEstuError, index) in mostrarErroresInput('fecha_nacimiento')" 
+                    :key="`nacimEstuError-${index}`">{{ nacimEstuError }}
+                  </span> -->
+
+                </b-form-group>
+                            
+                <b-form-group
+                  label-align	="center"
+                  style="text-align:center;"
+                  class="mt-5"
+                >
+                  <b-button variant="success" 
+                    :disabled="btnCreateOrEditCycleDisabled"
+                    v-show="showCreateForm"
+                    @click="createCycle" >CREAR CICLO
+                  </b-button>
+                  <b-button variant="success" 
+                    :disabled="btnCreateOrEditCycleDisabled"
+                    v-show="showEditForm"
+                    @click="editCycle" >EDITAR CICLO
+                  </b-button>
+                  <p class="text-success" v-show="btnCreateOrEditCycleDisabled" >Rellenar todos los campos para enviar.</p>
+                </b-form-group>
+              </b-form>
+            </b-card-text>
+          </b-card>
+        </div>
+      </div>
+      <!-- END VOUCHERS DATA -->
     </div>
 
     <div class="card-footer d-flex justify-content-end"
         :class="type === 'dark' ? 'bg-transparent': ''"
         >
-      <base-pagination 
-        v-show="!showAcciones"
-        :pageCount="pagination.totalPage" 
-        :perPage="pagination.perPage"
-        :value="pagination.currentPage"
+      <base-pagination
+        :pageCount="pagination.total_pages" 
+        :perPage="pagination.per_page"
+        :value="pagination.current_page"
         @input="getCiclos"
       ></base-pagination>
     </div>
@@ -128,9 +377,16 @@
 </template>
 <script>
   import * as ciclo from '@/api/ciclo';
+  
+  import { validationMixin } from 'vuelidate' 
+  import { required, helpers } from 'vuelidate/lib/validators';
+  import swal from 'sweetalert';
+
+  const letrasValidas = helpers.regex('alfabetic', /[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+/)
 
   export default {
     name: 'ciclos-table',
+    mixins: [validationMixin],
     props: {
       type: {
         type: String
@@ -140,41 +396,74 @@
     data() {
       return {
         //
+        cyclePopUpDataLoading: false,
         componentLoading: false,
-        nombreLoader: false,
-        getStateLoading: false,
         //
-        showAcciones: false,  // eliminar
+        formCicloPopUp: false,
+        showCreateForm: false,
+        showEditForm: false,
+        btnCreateOrEditCycleDisabled: true,
+        //
+        cicleState: [ 'disponible', 'pendiente', 'desaprobado', 'terminado' ],
         //
         tableData: [],
-        studentsData: [], // eliminar
         //CICLO DATA
-        cicloData: {
+        cyclePopUpData: {
+          id: '',
           nombre : '',
           descripcion: '',
-          cantidad: 0,
-          duracion:0,
+          cantidad: '',
+          duracion:"Días",
           inicio:'',
           fin: '',
           termina: '',
-          estado: "pendiente",
-          links:[]
+          estado: '',
         },
-        vouchersData: [],//eliminar
         //PAGINATIONS
         pagination:{
           count: 0,        //cantifad
-          currentPage: 0,  //pagina actual
+          current_page: 0,  //pagina actual
           total: 0,        //total
-          perPage: 0,      //por pagina
-          totalPage: 0,    //total de paginas
+          per_page: 0,      //por pagina
+          total_pages: 0,    //total de paginas
           links: []        //links
         } 
       }
     },
+    validations: {
+      cyclePopUpData: {
+        nombre: {
+          required,
+          letrasValidas
+        },
+        descripcion: {
+          required,
+          letrasValidas,
+        },
+        estado: {
+          required
+        },
+        inicio: {
+          required,
+        },
+        fin: {
+          required,
+        },
+        cantidad: {
+          required
+        },
+        duracion: {
+          required
+        }
+      }
+    },
     created() {
       this.componentLoading = true
-      this.getCiclos(1);
+      // this.getCiclos(1);
+      ciclo.getCiclos(1)
+        .then( ({data}) => {
+          [this.pagination] = [data.meta.pagination];
+        })
     },
     methods: {
       getCiclos(pPage) {
@@ -182,9 +471,12 @@
         ciclo.getCiclos(pPage)
           .then( ({data}) => {
             //mapeo de la respuesta
-            [this.cicloData] = [data.data];
             [this.pagination] = [data.meta.pagination];
-            this.tableData = this.cicloData;
+            this.tableData  = data.data.sort((a,b) => {
+              if (a.id > b.id) return -1
+              if (a.id < b.id) return 1
+              return 0
+            });
           })
           .catch( err => {
             console.log(err)
@@ -193,11 +485,179 @@
             this.componentLoading = false
           })
       },
+      closeCycleFormPopUp() {
+        this.formCicloPopUp = false
+        this.btnCreateOrEditCycleDisabled = true
+        this.showCreateForm = false
+        this.showEditForm = false
+        this.cyclePopUpData = {
+          id: '',
+          nombre : '',
+          descripcion: '',
+          cantidad: '',
+          duracion: 'Días',
+          inicio:'',
+          fin: '',
+          termina: '',
+          estado: '',
+        },
+        this.$emit("cycle-event", this.formCicloPopUp)
+      },
+      showCreateFormPopUp() {
+        this.$v.cyclePopUpData.$reset()
+        this.formCicloPopUp = true
+        this.showCreateForm = true
+        this.$emit("cycle-event", this.formCicloPopUp)
+      },
+      showEditFormPopUp(pId) {
+        this.$v.cyclePopUpData.$touch()
+        this.tableData.forEach(el => {
+          if( el.id === pId) {
+            [ this.cyclePopUpData ] = [ el ]
+          }
+        })
+
+        this.formCicloPopUp = true
+        this.showEditForm = true
+        this.$emit("cycle-event", this.formCicloPopUp)
+
+      },
+      verifyCycleFormData() {
+        if (!this.$v.cyclePopUpData.$invalid ) {
+          this.btnCreateOrEditCycleDisabled = false
+        } else {
+          this.btnCreateOrEditCycleDisabled = true
+        }
+      },
+      touchAllValidations() {
+        this.$v.cyclePopUpData.$touch()
+      },
+      isLetter(e) {
+        let char = String.fromCharCode(e.keyCode);
+        if(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(char)) return true;
+        else e.preventDefault();
+      },
+      isNumber(e){
+        let char = String.fromCharCode(e.keyCode);
+        if(/^[0-9]+$/.test(char)) return true;
+        else e.preventDefault();
+      },
+      calculateDays() {
+        if(this.cyclePopUpData.inicio !== "" && this.cyclePopUpData.fin !== "") {
+          let inicio = new Date(this.cyclePopUpData.inicio)
+          let fin = new Date(this.cyclePopUpData.fin)
+          let diff = (fin - inicio)  / (1000*60*60*24)
+          this.cyclePopUpData.cantidad = diff
+          this.verifyCycleFormData()
+        }
+      },
+      createCycle() {
+        this.cyclePopUpDataLoading = true
+        let cycleFormData = new FormData()
+        cycleFormData.append('nombre',this.cyclePopUpData.nombre)
+        cycleFormData.append('descripcion',this.cyclePopUpData.descripcion)
+        cycleFormData.append('estado',this.cyclePopUpData.estado)
+        cycleFormData.append('cantidad',this.cyclePopUpData.cantidad)
+        cycleFormData.append('duracion',this.cyclePopUpData.duracion)
+        cycleFormData.append('inicio',this.cyclePopUpData.inicio)
+        cycleFormData.append('fin',this.cyclePopUpData.fin)
+
+        ciclo.createCiclo(cycleFormData)
+          .then(( {data} ) => {
+            [this.cyclePopUpData] = [data.data]
+            this.tableData.unshift(this.cyclePopUpData)
+            this.closeCycleFormPopUp()
+            swal("Creacion Exitosa","Ciclo creado correctamente","success")
+          })
+          .catch(err => {
+            if(err.response) {
+              console.log('err.response.data:',err.response.data)
+              console.log('err.response.status:',err.response.status)
+              console.log('err.response.headers:',err.response.headers)
+            } else if (err.request) {
+              console.log("err.request:",err.request)
+            } else {
+              console.log('ERROR', err.message)
+            }
+          })
+          .finally(() => {
+            console.log('end create ciclo')
+            this.cyclePopUpDataLoading = false
+          })
+      },
+      editCycle() {
+        this.cyclePopUpDataLoading = true
+        let cycleObjectData = {
+          'nombre': this.cyclePopUpData.nombre,
+          'descripcion': this.cyclePopUpData.descripcion,
+          'estado': this.cyclePopUpData.estado,
+          'cantidad': this.cyclePopUpData.cantidad,
+          'duracion': this.cyclePopUpData.duracion,
+          'inicio': this.cyclePopUpData.inicio,
+          'fin': this.cyclePopUpData.fin
+        }
+  
+        ciclo.updateCiclo(cycleObjectData,this.cyclePopUpData.id)
+          .then(( {data} ) => {
+            [this.cyclePopUpData] = [data.data]
+            this.tableData.forEach(el => {
+              if(el.id === this.cyclePopUpData.id) {
+                [el] = [this.cyclePopUpData] 
+              }
+            });
+            this.closeCycleFormPopUp()
+            swal("Edición Exitosa","Ciclo actualizado correctamente","success")
+          })
+          .catch(err => {
+            if(err.response) {
+              console.log('err.response.data:',err.response.data)
+              console.log('err.response.status:',err.response.status)
+              console.log('err.response.headers:',err.response.headers)
+            } else if (err.request) {
+              console.log("err.request:",err.request)
+            } else {
+              console.log('ERROR', err.message)
+            }
+          })
+          .finally(() => {
+            console.log('end create ciclo')
+            this.cyclePopUpDataLoading = false
+          })
+      },
+      deleteCycleData(cycleId) {
+        swal({
+          title: "¿Estás seguro de eliminar este ciclo?",
+          text: "Eliminar el ciclo es un accion irreversible",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((okBorrar) => {
+          if (okBorrar) {
+            ciclo.deleteCiclo(cycleId)
+              .then( ( {data} ) => {
+                this.tableData.forEach((el,i) => {
+                  if(el.id === data.id) {
+                    this.tableData.splice(i,1)
+                  }
+                });
+                swal("El ciclo ha sido eliminado!", {
+                  icon: "success",
+                })
+              })
+              .catch( err => {
+                console.log('err',err)
+              })
+          }
+        });
+      }
     }
   }
 </script>
 <style scoped>
-
+.muni-box-shadow {
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, .10);
+}
 /* spiner */
 .app-loader-content {
   height: 450px;
@@ -207,6 +667,7 @@
   top: 50%;
   transform:translate(-50%,-50%);
 }
+
 /*  */
 .dato {
   position: relative;
@@ -228,7 +689,18 @@
   transform: scale(1);
 }
 /* */
-.voucher-shadow {
+.ciclos {
+ position: absolute;
+ top:0;
+ z-index: 200;
+ width: 100%;
+}
+.ciclos-shadow {
  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .10);
+}
+.cycle-loader-content {
+  border: 1px solid #cad1d7;
+  background-color: #fff;
+  border-radius: 0.375rem;
 }
 </style>

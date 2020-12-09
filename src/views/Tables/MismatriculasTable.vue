@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow"
+  <div class="card muni-box-shadow"
        :class="type === 'dark' ? 'bg-default': ''">
     <div class="card-header border-0"
          :class="type === 'dark' ? 'bg-transparent': ''">
@@ -115,5 +115,8 @@
     }
   }
 </script>
-<style>
+<style scoped>
+.muni-box-shadow {
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, .10);
+}
 </style>
