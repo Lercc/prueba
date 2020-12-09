@@ -6,7 +6,7 @@ import store from '../store';
 // const CLIENT_PASSWORD =  "nE3eZEBhDoyhsLin6om8zYSBxlOscLpj1eVfCfq4"
 // local
 const CLIENT_ID =  1
-const CLIENT_PASSWORD =  "SHqd36FPiylTPYKuaALE2hrE759vzPh4cb42794H"
+const CLIENT_PASSWORD =  "HcFajQT1VDhI55ESgk6z5UnzjyLxwSchWwAOHwzw"
 
 const API_URL = `${store.state.apiRest.url}/oauth/token`
 //TOKEN AL INicializar el APP
@@ -30,7 +30,7 @@ function getStudentToken(pCorreo,pContrasenia) {
   // const CLIENT_PASSWORDS =  "VJATzS3gBXD9VC6rhoD5WY2q5QomTQorl2CRhj7u" 
   //local
   const CLIENT_IDS = 2
-  const CLIENT_PASSWORDS =  "UVu6FlpgfNfrWZniJfP1OodiPIxv1fohksvUfIpM" 
+  const CLIENT_PASSWORDS =  "XeCK1CucqXEuSA5RiRwEIzLZ1PMg9pgiGe2De67k" 
 
   const CORREO = pCorreo;
   const CONTRASENIA = pContrasenia;
