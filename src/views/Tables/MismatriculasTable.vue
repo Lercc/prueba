@@ -14,8 +14,12 @@
         </div>
       </div>
     </div>
-
-    <div class="table-responsive">
+    <!-- LOADER -->
+    <div class="app-loader-content card bg-secondary shadow border-0" v-show="componentLoading">
+      <hash-loader class="loader" :loading="componentLoading" :size = "120"  :color="'#2B2D64'"/>
+    </div>
+    <!-- END LOADER -->
+    <div class="table-responsive" v-show="!componentLoading">
       <base-table class="table align-items-center table-flush"
                   :class="type === 'dark' ? 'table-dark': ''"
                   :thead-classes="type === 'dark' ? 'thead-dark': 'thead-light'"
@@ -65,7 +69,13 @@
 
     <div class="card-footer d-flex justify-content-end"
          :class="type === 'dark' ? 'bg-transparent': ''">
-      <base-pagination :total="5" :pageCount="2" :perPage="2" ></base-pagination>
+      <base-pagination 
+      :pageCount="pagination.total_pages" 
+      :perPage="pagination.per_page"
+      :value="pagination.current_page"
+      @input="obtenerMatriculas"
+      >
+      </base-pagination>
     </div>
 
   </div>
@@ -83,17 +93,40 @@
     },
     data() {
       return {
-        tableData: []
+         //
+        componentLoading: false,
+        nombreLoader: false,
+        getStateLoading: false,
+        //
+        tableData: [],
+        //PAGINATIONS
+        pagination:{
+          count: 0,        //cantifad
+          current_page: 0,  //pagina actual
+          total: 0,        //total
+          per_page: 0,      //por pagina
+          total_pages: 0,    //total de paginas
+          links: []        //links
+        }       //navegacion
       }
     },
     created() {
-      this.obtenerMatriculas()
+      // this.obtenerMatriculas(1)
+      matricula.getAllStudentEnrollments(1)
+        .then( ({data}) => {
+          [this.pagination] = [data.meta.pagination];
+        }).catch( err => {
+          console.log(err)
+        })
+        .finally( () => {
+          this.componentLoading = false
+        })
     },
     methods: {
-      obtenerMatriculas() {
-        matricula.getEnrollments()
+      obtenerMatriculas(page) {
+        matricula.getAllStudentEnrollments(page)
           .then( res => {
-            console.log(res)
+             [this.pagination] = [res.data.meta.pagination];
             let datos = res.data.data.map( (m, i) => ({
                 num : i+1,
                 ciclo: m.ciclo_id,
@@ -103,14 +136,10 @@
                 estado: m.estado
               }))
             this.tableData = datos
-            console.log(datos)
 
           })
           .catch( err => {
             console.log(err)
-          })
-          .finally( () => {
-            console.log("get enrollments end")
           })
       }
     }

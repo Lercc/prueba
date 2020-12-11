@@ -23,6 +23,12 @@ function getEnrollments() {
   const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
+//OBTENER MATRICULAS DEL ESTUDIANTE FILTRADO POR PÁGINA
+function getAllStudentEnrollments(pPage) {
+  const REQUEST = `students/${store.state.estudiante.estudiante.id}/enrollments?page=${pPage}`
+  const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
+  return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
 // OBTENER TODAS MATRICULAS POR PAGINa
 function getAllEnrollments(pPage) {
   const REQUEST = `enrollments?page=${pPage}`
@@ -74,4 +80,11 @@ function getVouchersPerEnrollments(pIdEnrollment) {
 
 
 //Exportamos la funcion para poder usarla más tarde
-export { crearEnrollment, crearVoucher, getEnrollments, getAllEnrollments, getVouchersPerEnrollments, updateEnrollment,getAllEnrollmentsFilter }
+export { crearEnrollment, 
+  crearVoucher, 
+  getEnrollments, 
+  getAllEnrollments, 
+  getVouchersPerEnrollments, 
+  updateEnrollment,
+  getAllEnrollmentsFilter,
+  getAllStudentEnrollments }

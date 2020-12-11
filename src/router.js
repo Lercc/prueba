@@ -76,7 +76,7 @@ export default new Router({
         },
         {
           path: '/profile',
-          name: 'profile',
+          name: 'perfil',
           component: () => import(/* webpackChunkName: "profile" */ './views/UserProfile.vue')
         },
         {
@@ -88,6 +88,11 @@ export default new Router({
           path: '/matricula',
           name: 'matricula',
           component: () => import(/* webpackChunkName: "matricula" */ './views/MuniAulaVirtual/componentes/Matricula.vue')
+        },
+        {
+          path: '/recursos',
+          name: 'recursos',
+          component: () => import(/* webpackChunkName: "matricula" */ './views/MuniAulaVirtual/componentes/Recurso.vue')
         },
         {
           path: '/icons',

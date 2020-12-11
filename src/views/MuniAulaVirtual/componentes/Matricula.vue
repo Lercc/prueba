@@ -192,8 +192,9 @@
                       :key="`fechaVaucher-${index}`">{{ fechaVaucherError }}</span>
 
                 </b-form-group>
-
-                <b-button variant="primary" :disabled="btnMatricularDisabled || matriculaInputsDisable" @click="registrarIncripcion" >Registrar inscripción</b-button>
+                <div style="text-align:center;">
+                  <b-button  variant="primary" :disabled="btnMatricularDisabled || matriculaInputsDisable" @click="registrarIncripcion" >Registrar inscripción </b-button>
+                </div>
                 
               </b-form>
               

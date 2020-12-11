@@ -65,10 +65,10 @@
                                 <div class="h5 font-weight-300">
                                     <i class="ni location_pin mr-2"></i>Distrito: {{estudiante.distrito}}
                                 </div>
-                                <div class="h5 mt-4">
+                                <div class="h5 font-weight-300">
                                     <i class="ni business_briefcase-24 mr-2"></i>DNI: {{estudiante.dni}}
                                 </div>
-                                <div>
+                                <div class="h5 font-weight-300">
                                     <i class="ni education_hat mr-2"></i>Celular: {{estudiante.celular}}
                                 </div>
                                 <hr class="my-4" />
@@ -222,9 +222,7 @@
             
         },
         async getStudentData(){
-            console.log("entrada?")
             if (localStorage.getItem("estudiante")) {
-                console.log("entrado!")
                 this.estudiante = await JSON.parse(localStorage.getItem("estudiante"))
                 this.getAge()
             }
