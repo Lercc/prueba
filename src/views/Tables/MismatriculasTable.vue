@@ -10,7 +10,7 @@
           </h3>
         </div>
         <div class="col text-right">
-          <base-button type="primary" size="sm">See all</base-button>
+          <!-- <base-button type="primary" size="sm">See all</base-button> -->
         </div>
       </div>
     </div>
@@ -48,12 +48,13 @@
 
           <td>
              <badge class="badge-dot mr-4" :type="row.statusType | estadoMatricula">
-              <i 
-                :class="{ 'bg-sucees' : row.statusType == 'aprovado',
-                          'bg-warning' : row.statusType == 'pendiente',
-                          'bg-danger' : row.statusType == 'terminado'}">
-              </i>
+              <b class="status"
+                :class="{ 'text-success'   : row.statusType == 'aprobado',
+                          'text-purple'  : row.statusType == 'pendiente',
+                          'text-red'    : row.statusType == 'desaprobado',
+                          'text-gray'   : row.statusType == 'terminado'}">
               <span class="status">{{row.estado}}</span>
+              </b>
             </badge>
           </td>
 

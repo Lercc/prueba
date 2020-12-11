@@ -33,6 +33,7 @@
                   <b-form-select
                     v-show="!createMatriculaLoading"
                     @click="verificarDatosMatricula"
+                    @change="verificarDatosMatricula"
                     @blur="$v.matricula.cicloId.$touch"
                     v-model="$v.matricula.cicloId.$model" 
                     :options="ciclos"
@@ -109,6 +110,7 @@
                     v-show="!createMatriculaLoading"
                     @moseover="$v.matricula.imagenVaucher.$touch"
                     @change="verificarDatosMatricula"
+                    @blur="verificarDatosMatricula"
                     accept="image/*"
                     placeholder="Seleccione o arrastre aqui..."
                     drop-placeholder="Arrastra y suelta aqui..."
@@ -288,10 +290,19 @@ export default {
         .finally(() => {
           console.log("get carreras end")
         })
+    },
+    matricula: {
+      handler: function() {
+        this.verificarDatosMatricula()
+      },
+      deep: true
     }
   },
 
   methods: {
+    test(value){
+      console.log(value)
+    },
     onCopy() {
       this.$notify({
         type: 'info',
@@ -341,7 +352,9 @@ export default {
         .then( res => {
           let codigoRes = res.status
           if(codigoRes == 200) {
-            swal("Matrícula exitosa", "La matrícula se realizo exitosamente.","success")
+            swal("Matrícula exitosa", "La matrícula se realizó exitosamente.","success")
+            this.$router.push({ name: "misMatriculas"})
+
           }
         })
         .catch( err => {
@@ -351,21 +364,17 @@ export default {
           swal("Campos inválidos", "Por favor verifique que los datos en los campos sean válidos.","error")
         })
         .finally( () => {
-          console.log("create enrollment end")
           this.createMatriculaLoading = false
         })
     },
 
     obtenerCiclos() {
-      generalData.getCiclos()
+      generalData.getCiclosFilter('disponible')
         .then( res => {
           this.ciclos = res.data.data.map( i => ({ value : i.id, text : i.nombre}))
         })
         .catch( error => {
           console.log(error.response.status)
-        })
-        .finally(() => {
-          console.log("get ciclos end")
         })
     },
 
@@ -376,9 +385,6 @@ export default {
         })
         .catch( error => {
           console.log(error.response.status)
-        })
-        .finally(() => {
-          console.log("get areas end")
         })
     },
 

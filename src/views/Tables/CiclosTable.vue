@@ -144,14 +144,13 @@
                     placeholder = "Ingrese el nombre del ciclo"
                     v-model = "$v.cyclePopUpData.nombre.$model"
                     :state = "$v.cyclePopUpData.nombre.$dirty ? !$v.cyclePopUpData.nombre.$invalid : null"
-                    @keyup = "verifyCycleFormData"
+                    @change = "verifyCycleFormData"
                     @blur = "touchAllValidations"
-                    @keypress="isLetter"
+                    
                   ></b-form-input>
 
                   <b-form-invalid-feedback>
                     <span v-show = "!$v.cyclePopUpData.nombre.required"> * el campo nombre es requerido</span>
-                    <span v-show = "!$v.cyclePopUpData.nombre.letrasValidas"> * el campo requiere valores alfabéticos</span>
                   </b-form-invalid-feedback>
 
                   <!-- <span 
@@ -177,20 +176,12 @@
                     :state = "$v.cyclePopUpData.descripcion.$dirty ? !$v.cyclePopUpData.descripcion.$invalid : null"
                     @keyup = "verifyCycleFormData"
                     @blur = "touchAllValidations"
-                    @keypress="isLetter"
                     >
                   </b-form-input>
 
                   <b-form-invalid-feedback>
                       <span v-show = "!$v.cyclePopUpData.descripcion.required"> * el campo es requerido</span>
-                      <span v-show = "!$v.cyclePopUpData.descripcion.letrasValidas"> * el campo requiere solo letras validas</span>
                   </b-form-invalid-feedback>
-
-                  <!-- <span 
-                    class="input--error" 
-                    v-for="(apellEstuError, index) in mostrarErroresInput('apellidos')" 
-                    :key="`apPaterEstuError-${index}`">{{ apellEstuError }}
-                  </span> -->
 
                 </b-form-group>
 
@@ -278,6 +269,8 @@
                     :state = "$v.cyclePopUpData.fin.$dirty ? !$v.cyclePopUpData.fin.$invalid : null"
                     @blur = "touchAllValidations"
                     @change="calculateDays"
+                    @keyup = "verifyCycleFormData"
+
                     >
                     </b-form-input>
 
@@ -337,7 +330,33 @@
                   </span> -->
 
                 </b-form-group>
-                            
+                <!-- Mostrar data de categorías de moodle -->
+                <b-form-group
+                  label="1. Categoría de Moodle:"
+                >
+                  <div class = "pb-1 cycle-loader-content" v-show="cyclePopUpDataLoading" >
+                    <pulse-loader class="mt-2 ml-3"  :loading="cyclePopUpDataLoading" :size = "15" :color="'#4FA898'"/>
+                  </div>
+
+                  <b-form-select 
+                    v-show="!cyclePopUpDataLoading"
+                    v-model = "$v.cyclePopUpData.categoria_moodle_id.$model"
+                    @blur = "verifyCycleFormData"
+                    @change = "verifyCycleFormData"
+                    :options = "Object.values(categorias_moodle)"
+                    :state = "$v.cyclePopUpData.categoria_moodle_id.$dirty ? !$v.cyclePopUpData.categoria_moodle_id.$invalid : null"
+                    
+                    >
+                    <template #first>
+                      <b-form-select-option value="" disabled>-- Seleccione categoría Moodle--</b-form-select-option>
+                    </template>
+
+                  </b-form-select>
+
+                  <b-form-invalid-feedback>
+                    <span v-show = "!$v.cyclePopUpData.categoria_moodle_id.required"> * el campo nombre es requerido</span>
+                  </b-form-invalid-feedback>
+                </b-form-group>
                 <b-form-group
                   label-align	="center"
                   style="text-align:center;"
@@ -379,10 +398,9 @@
   import * as ciclo from '@/api/ciclo';
   
   import { validationMixin } from 'vuelidate' 
-  import { required, helpers } from 'vuelidate/lib/validators';
+  import { required } from 'vuelidate/lib/validators';
   import swal from 'sweetalert';
 
-  const letrasValidas = helpers.regex('alfabetic', /[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+/)
 
   export default {
     name: 'ciclos-table',
@@ -416,9 +434,10 @@
           duracion:"Días",
           inicio:'',
           fin: '',
-          termina: '',
           estado: '',
+          categoria_moodle_id:'',
         },
+        categorias_moodle:[],
         //PAGINATIONS
         pagination:{
           count: 0,        //cantifad
@@ -434,11 +453,9 @@
       cyclePopUpData: {
         nombre: {
           required,
-          letrasValidas
         },
         descripcion: {
           required,
-          letrasValidas,
         },
         estado: {
           required
@@ -454,6 +471,9 @@
         },
         duracion: {
           required
+        },
+        categoria_moodle_id:{
+          required
         }
       }
     },
@@ -464,8 +484,13 @@
         .then( ({data}) => {
           [this.pagination] = [data.meta.pagination];
         })
+      this.getCategoriasMoodle();
     },
     methods: {
+      getCategoriasMoodle(){
+        ciclo.getMoodleCategories()
+        .then( ({data})=> this.categorias_moodle = data.data)
+      },
       getCiclos(pPage) {
         this.componentLoading = true
         ciclo.getCiclos(pPage)
@@ -498,8 +523,8 @@
           duracion: 'Días',
           inicio:'',
           fin: '',
-          termina: '',
           estado: '',
+          categoria:''
         },
         this.$emit("cycle-event", this.formCicloPopUp)
       },
@@ -523,6 +548,7 @@
 
       },
       verifyCycleFormData() {
+        console.log(this.$v.cyclePopUpData.$invalid);
         if (!this.$v.cyclePopUpData.$invalid ) {
           this.btnCreateOrEditCycleDisabled = false
         } else {
@@ -532,11 +558,11 @@
       touchAllValidations() {
         this.$v.cyclePopUpData.$touch()
       },
-      isLetter(e) {
-        let char = String.fromCharCode(e.keyCode);
-        if(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(char)) return true;
-        else e.preventDefault();
-      },
+      // isLetter(e) {
+      //   let char = String.fromCharCode(e.keyCode);
+      //   if(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/.test(char)) return true;
+      //   else e.preventDefault();
+      // },
       isNumber(e){
         let char = String.fromCharCode(e.keyCode);
         if(/^[0-9]+$/.test(char)) return true;
@@ -561,6 +587,7 @@
         cycleFormData.append('duracion',this.cyclePopUpData.duracion)
         cycleFormData.append('inicio',this.cyclePopUpData.inicio)
         cycleFormData.append('fin',this.cyclePopUpData.fin)
+        cycleFormData.append('categoria_moodle_id',this.cyclePopUpData.categoria_moodle_id)
 
         ciclo.createCiclo(cycleFormData)
           .then(( {data} ) => {
@@ -594,7 +621,8 @@
           'cantidad': this.cyclePopUpData.cantidad,
           'duracion': this.cyclePopUpData.duracion,
           'inicio': this.cyclePopUpData.inicio,
-          'fin': this.cyclePopUpData.fin
+          'fin': this.cyclePopUpData.fin,
+          'categoria_moodle_id':this.cyclePopUpData.categoria_moodle_id
         }
   
         ciclo.updateCiclo(cycleObjectData,this.cyclePopUpData.id)

@@ -729,8 +729,6 @@
                   @click="crearEstudiante" >REGISTRAR ESTUDIANTE</b-button>
                   <p class="text-success" v-show="btnRegistrarEstudianteDisabled" >Rellenar todos los campos para enviar.</p>
                 </b-form-group>
-               
-
               </b-form>
               
             </b-card-body>

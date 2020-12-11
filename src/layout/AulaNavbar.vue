@@ -20,7 +20,7 @@
                         <span class="mb-0 text-sm  font-weight-bold">{{estudiante.estudiante.nombre}}</span>
                       </div>  
                       <span class="avatar avatar-sm rounded-circle">
-                        <img alt="Image placeholder" src="img/theme/team-1-800x800.jpg">
+                        <img alt="Image placeholder" src="img/theme/user.png">
                       </span>
                     </div>
                     <template>

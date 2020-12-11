@@ -63,7 +63,7 @@
                 <div class="header-body text-center mb-7">
                     <div class="row justify-content-center">
                         <div class="col-lg-5 col-md-6">
-                            <h1 class="text-white">Bienvenido a el Aula Virtual Municipal!</h1>
+                            <h1 class="text-white">Bienvenido a la Academia Municipal El Tambo</h1>
                         </div>
                     </div>
                 </div>

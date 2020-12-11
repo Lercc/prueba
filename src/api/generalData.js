@@ -15,7 +15,12 @@ function getAllCiclos() {
   const headers = { Authorization : `Bearer ${store.state.usuario.token}` }
   return axios.get(`${API_URL}/${REQUEST}`, { headers })
 }
-
+//Obtener ciclos disponibles
+function getCiclosFilter(filter) {
+  const REQUEST = `cycles?estado=${filter}`
+  const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
+  return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
 // REQUEST `careers`
 function getCarrerasPorArea(pArea) { 
   const REQUEST = `areas/${pArea}/careers?sort_by=nombre`
@@ -49,4 +54,4 @@ function getMe() {
 
 
 //Exportamos la funcion para poder usarla más tarde
-export { getCiclos, getCarrerasPorArea, getMe, getAreas,getAllCiclos,getAllAreas,getAllCarreras}
+export { getCiclos, getCarrerasPorArea, getMe, getAreas,getAllCiclos,getAllAreas,getAllCarreras,getCiclosFilter}

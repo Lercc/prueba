@@ -43,6 +43,12 @@ function deleteCiclo(pCycleId) {
     const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
     return axios.delete(`${API_URL}/${REQUEST}`, { headers })
 }
-
+// OBTENER CATEGORIAS MOODLE
+// REQUEST 'moodlecategories'
+function getMoodleCategories() {
+    const REQUEST = `moodlecategories`
+    const headers = { Authorization : `Bearer ${store.state.usuario.token}`}
+    return axios.get(`${API_URL}/${REQUEST}`, { headers })
+}
 //Exportamos la funcion para poder usarla más tarde
-export { getCiclos, createCiclo, updateCiclo, deleteCiclo }
+export { getCiclos, createCiclo, updateCiclo, deleteCiclo,getMoodleCategories }

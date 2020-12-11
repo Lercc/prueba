@@ -3,7 +3,7 @@ import store from '../store';
 
 //test
 const CLIENT_ID =  1
-const CLIENT_PASSWORD =  "nE3eZEBhDoyhsLin6om8zYSBxlOscLpj1eVfCfq4"
+const CLIENT_PASSWORD =  "HcFajQT1VDhI55ESgk6z5UnzjyLxwSchWwAOHwzw"
 
 // local
 // const CLIENT_ID =  1
@@ -28,7 +28,7 @@ function getStudentToken(pCorreo,pContrasenia) {
 
   //test
   const CLIENT_IDS = 2
-  const CLIENT_PASSWORDS =  "VJATzS3gBXD9VC6rhoD5WY2q5QomTQorl2CRhj7u" 
+  const CLIENT_PASSWORDS =  "XeCK1CucqXEuSA5RiRwEIzLZ1PMg9pgiGe2De67k" 
 
   //local
   // const CLIENT_IDS = 2
