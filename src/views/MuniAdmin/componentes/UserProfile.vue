@@ -9,8 +9,8 @@
                 <div class="row">
                     <div class="col-lg-7 col-md-10">
                         <h1 class="display-2 text-white">Hola {{estudiante.nombre}}</h1>
-                        <p class="text-white mt-0 mb-5">Esta es tu página de perfil donde podrás visualizar los datos referente a su cuenta. Puede ver el progreso que ha logrado con su trabajo y administrar sus proyectos o tareas asignadas</p>
-                        <a href="#!" class="btn btn-info">Editar Perfil</a>
+                        <p class="text-white mt-0 mb-5">Esta es tu página de perfil donde podrás visualizar los datos referente a su cuenta.</p>
+                        <!-- <a href="#!" class="btn btn-info">Editar Perfil</a> -->
                     </div>
                 </div>
             </div>
@@ -25,22 +25,22 @@
                             <div class="col-lg-3 order-lg-2">
                                 <div class="card-profile-image">
                                     <a href="#">
-                                        <img src="img/theme/team-1-800x800.jpg" class="rounded-circle">
+                                        <img src="img/theme/user.png" class="rounded-circle">
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                             <div class="d-flex justify-content-between">
-                                <base-button size="sm" type="info" class="mr-4">Conectar</base-button>
-                                <base-button size="sm" type="default" class="float-right">Mensajes</base-button>
+                                <!-- <base-button size="sm" type="info" class="mr-4">Conectar</base-button>
+                                <base-button size="sm" type="default" class="float-right">Mensajes</base-button> -->
                             </div>
                         </div>
                         <div class="card-body pt-0 pt-md-4">
                             <div class="row">
                                 <div class="col">
                                     <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                                        <div>
+                                        <!-- <div>
                                             <span class="heading">22</span>
                                             <span class="description">Amigos</span>
                                         </div>
@@ -51,8 +51,8 @@
                                         <div>
                                             <span class="heading">89</span>
                                             <span class="description">Comentarios</span>
-                                        </div>
-                                    </div>
+                                        </div> -->
+                                    </div> 
                                 </div>
                             </div>
                             <div class="text-center">
@@ -62,21 +62,20 @@
                                 <div class="h5 font-weight-300">
                                     <i class="ni location_pin mr-2"></i>{{estudiante.provincia}} - {{estudiante.distrito}}
                                 </div>
-                                <div class="h5 mt-4">
+                                <div class="h5 font-weight-300">
                                     <i class="ni business_briefcase-24 mr-2"></i>{{estudiante.dni}}
                                 </div>
-                                <div>
+                                <div class="h5 font-weight-300">
                                     <i class="ni education_hat mr-2"></i>{{estudiante.celular}}
                                 </div>
                                 <hr class="my-4" />
-                                <!-- <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.</p> -->
-                                <a href="#">Mostrar más!</a>
+                                <!-- <a href="#">Mostrar más!</a> -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-8 order-xl-1">
+                <!-- <div class="col-xl-8 order-xl-1">
                     <card shadow type="secondary">
                         <div slot="header" class="bg-white border-0">
                             <div class="row align-items-center">
@@ -131,7 +130,6 @@
                                     </div>
                                 </div>
                                 <hr class="my-4" />
-                                <!-- Address -->
                                 <h6 class="heading-small text-muted mb-4">Información de Contacto</h6>
                                 <div class="pl-lg-4">
                                     <div class="row">
@@ -172,7 +170,6 @@
                                     </div>
                                 </div>
                                 <hr class="my-4" />
-                                <!-- Description -->
                                 <h6 class="heading-small text-muted mb-4">Acerca de mí</h6>
                                 <div class="pl-lg-4">
                                     <div class="form-group">
@@ -185,7 +182,7 @@
                             </form>
                         </template>
                     </card>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
