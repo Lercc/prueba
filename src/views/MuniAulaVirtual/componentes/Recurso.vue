@@ -8,7 +8,7 @@
                         <card :hover="true">
                         <stats-card title="Aula Virtual"
                                     type="gradient-blue"
-                                    sub-title="Acceso a los cursos"
+                                    sub-title="Cursos"
                                     icon="ni ni-laptop"
                                     class="mb-4 mb-xl-0"
                         >
@@ -63,7 +63,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row icon-examples">
-                                <div class="col-lg-3 col-md-6"
+                                <div class="col-lg-4 col-md-6"
                                      v-for="(icon, index) in redes" :key="icon.name + index">
                                      <a :href="icon.link" target="_blank">
                                     <button type="button"
@@ -104,6 +104,8 @@
             { icon: "fab fa-whatsapp-square" ,name: "Whatshap", link:"https://api.whatsapp.com/send?phone=51996040169&text=Hola!%20Deseo%20informaci%C3%B3n."},
             { icon: "fas fa-phone-square" ,name: "Celular 1" ,link:"https://api.whatsapp.com/send?phone=51999505349&text=Hola!%20Deseo%20informaci%C3%B3n."},
             { icon: "fas fa-phone-square" ,name: "Celular 2" ,link:"https://api.whatsapp.com/send?phone=51942072834&text=Hola!%20Deseo%20informaci%C3%B3n."},
+            { icon: "fab fa-google-play" ,name: "App Android" ,link:"https://play.google.com/store/apps/details?id=com.moodle.moodlemobile"},
+            { icon: "fab fa-app-store-ios" ,name: "App Iphone" ,link:"https://apps.apple.com/app/moodle-mobile/id633359593"},
         ]
       }
     },
